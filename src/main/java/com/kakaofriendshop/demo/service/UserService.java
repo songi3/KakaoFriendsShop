@@ -18,5 +18,9 @@ public class UserService {
 	public User checkUserAsPassword(String userId, String userPassword) throws Exception{
 		return userMapper.checkUserAsPassword(userId, userPassword);
 	};
+	
+	public User createUser(User mkUser) throws Exception{
+		return userMapper.createUser(mkUser);
+	}
 
 }

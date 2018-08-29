@@ -148,6 +148,7 @@ html, body {
 	min-width: auto;
 	height: 100%;
 	position: fixed;
+    width: 100%;
 }
 
 .inner {
@@ -299,71 +300,20 @@ html.fp-none, body.fp-none {
 	display: none;
 }
 
-.header .language {
-	width: 140px;
-	display: inline-block;
-	vertical-align: middle;
-	position: relative;
-	margin: -7px 0 0 20px;
-}
-
-.header .language strong {
-	display: block;
-	width: 100%;
-	cursor: pointer;
-	height: 40px;
-	outline: 1px solid rgba(0, 0, 0, .2);
-	background: rgba(255, 255, 255, .5);
-}
-
-.header .language strong span {
-	display: inline-block;
-	font-size: 14px;
-	color: #010101;
-	height: 100%;
-	line-height: 40px;
-	padding: 0 28px 0 34px;
-	background: url(../images/ico-lan-arrow-open.png) right 20px no-repeat;
-	transition: all 0.2s ease-in-out;
-}
-
-.header .language ul {
-	display: none;
-	width: 100%;
-	position: absolute;
-	top: 43px;
-	background: #fff;
-	transition: all 0.2s ease-in-out;
-}
-
-.header .language ul li {
-	width: 100%;
-}
-
-.header .language ul li a {
-	display: block;
-	width: 100%;
-	padding: 16px 0 16px 35px;
-	color: #999;
-	font-size: 14px;
-}
-
-.header .language ul li a:hover {
-	color: #333;
-}
-
-.header .language.on strong span {
-	background: url(../images/ico-lan-arrow-close.png) right 20px no-repeat;
-}
-
-.header .language.on ul {
-	display: block;
-}
-
-.header .language.on ul {
-	background: rgba(255, 255, 255, 0.8);
-	outline: 1px solid rgba(0, 0, 0, .2);
-}
+.logout-btn {
+		display:none !important;
+	}
+	.logout-btn.on {
+		display:inline-block !important;
+	}
+	
+	.login-btn {
+		display:inline-block !important;
+	}
+	
+	.login-btn.on {
+		display:none !important;
+	}
 
 .content {
 	width: 100%;
@@ -371,11 +321,13 @@ html.fp-none, body.fp-none {
 	top: 0;
 	left: 0;
 	clear: both;
-	display: block;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .content .wrap {
-	display: block;
+	display: flex;
 	height: 100%;
 	position: relative;
 	touch-action: none;
@@ -522,6 +474,7 @@ keyframes btngo { 90% {
 
 /***************************Contents Area  ***********************************************
 ************************************************************************************/
+
 .outwrapper.main .district-services {
 	width: 100%;
 	max-width: 1200px;
@@ -741,7 +694,40 @@ keyframes btngo { 90% {
 			margin-bottom:30px;	
 			width:100%;
 		}
+
+/* SignUp */
 		
+	.signup-form {
+		width:100%;
+		display:flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.signup-form .text-info{
+		font-size:2em;
+		font-weight: bold;
+		margin-bottom: 1em;
+	}
+	
+	@media screen and (max-width: 480px) {
+
+			.signup-form .button {
+			    margin-bottom: 5px;
+			}
+		}
+	
+	.one-layers{
+			margin-bottom:1em;	
+			width:100%;
+		}
+		
+	.two-layers{
+		margin-bottom:1em;	
+		width:100%;
+	    display: inline-flex;
+	}
 /* Button */
 
 	input[type="submit"],
@@ -849,8 +835,8 @@ keyframes btngo { 90% {
 		button:hover,
 		.button:hover {
 			/* color: #EF6480 !important; */
-			color: #7e30ba !important;
-			box-shadow: inset 0 0 0 2px #7e30ba;
+			color: fed900 !important;
+			box-shadow: inset 0 0 0 2px fed900;
 		}
 
 		input[type="submit"]:active,
@@ -1056,8 +1042,8 @@ keyframes btngo { 90% {
 		input[type="email"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #7e30ba;
-			box-shadow: 0 0 0 1px #7e30ba;
+			border-color: fed900;
+			box-shadow: 0 0 0 1px fed900;
 		}
 
 	.select-wrapper:before {

@@ -8,7 +8,7 @@ import com.kakaofriendshop.demo.dao.DbMapper;
 @Service
 public class DbService {
 	@Autowired
-    DbMapper dbMapper;
+	DbMapper dbMapper;
  
     public String getDual() throws Exception{
         return dbMapper.getDual();

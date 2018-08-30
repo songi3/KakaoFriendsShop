@@ -12,6 +12,12 @@ $(document).ready(function() {
 });
 
 /***************************************************************************
+ * 변수
+ **************************************************************************/
+
+var loginID; //로그인 아이디
+
+/***************************************************************************
  * 함수
  **************************************************************************/
 
@@ -46,6 +52,7 @@ function setLogin(){
 	$('.logout-btn').removeClass("on");
 }
 
+//홈 화면 상품 리스트 출력 
 function setProductList(){
 	
 	$.ajax({
@@ -78,7 +85,7 @@ function setProductList(){
 				p.appendTo($(articleClassName));
 				
 				var ul = $("<ul>" , {"class" : "actions"});
-				ul.html("<li><a href='#' class='button' onclick='commentDetailEvent(this)' id=" + value.index + ">More</a></li>");
+				ul.html("<li><a href='#' class='button' onclick='purchaseProductEvent(this)' id=" + value.index + ">Purchase</a></li>");
 				ul.appendTo($(articleClassName));
 			
 			})
@@ -86,6 +93,7 @@ function setProductList(){
 		}
 	});
 }
+
 
 /***************************************************************************
  * 클릭 이벤트 각종 버튼, 리소스 클릭 시 
@@ -103,6 +111,7 @@ function signupButtonClickEvent(){
 	callController('/signup');
 }
 
+// 회원가입 버튼 클릭시	
 function signupCommitButtonClickEvent(){
 	var id = $('#id').val();
 	var password = $('#password').val();
@@ -111,7 +120,6 @@ function signupCommitButtonClickEvent(){
 	var phone = $('#phone').val();
 	var address = $('#address').val();
 
-	// 회원가입 버튼 클릭시	
 	$.ajax({
 		url : "/signupCommit",
 		type : "post",
@@ -150,10 +158,82 @@ function loginCheckButtonClickEvent(){
 					alertify.alert("알림", "로그인 정보가 없습니다.");
 				}
 				
-				else {
-					var user = userMap.user;	
+				else {			
 					callController('/');
 				}
+		}
+	});
+}
+
+//상품 구매 창
+function purchaseProductEvent(e){
+
+	var commentIndex = e.id;
+	var user;
+	var product;
+	
+	//로그인 체크
+	$.ajax({
+
+		url : "/sessionCheck",
+		type : "get",
+		success : function(sessionLoginInfo) {
+			
+			user = sessionLoginInfo;
+			
+			if (!sessionLoginInfo) { // 로그아웃 중
+				alertify.confirm("알림", "로그인이 필요합니다. 로그인창으로 이동하시겠습니까?",
+				function(){
+					loginButtonClickEvent();
+				},
+				function(){
+				    
+				});
+			}
+			
+			else { //로그인 중
+				
+				$.ajax({
+
+					url : "/purchaseProduct",
+					type : "get",
+					data : {
+						"commentIndex" : commentIndex
+					},
+					success : function(productMap) {
+						
+						product = productMap.product;
+						
+						alertify.confirm("구매", product.product_name + "(가격 " + product.price + ")를 구매하시겠습니까?",
+						  function(){
+							
+							var id = user.id;
+							var corp_num = product.corp_num;			
+							var product_code = product.product_code;
+							
+							$.ajax({
+
+								url : "/purchaseProductCommit",
+								type : "post",
+								data : {
+									"id" : id,
+									"corp_num" : corp_num,
+									"product_code" : product_code,
+									"count" : "1",
+									"settlement_method" : "credit-card"
+								},
+								success : function() {
+									 alertify.success('구매되었습니다.');
+								}
+								});
+						  },
+						  function(){
+						    alertify.error('취소되었습니다.');
+						  });
+					}
+				});
+	
+			}
 		}
 	});
 }

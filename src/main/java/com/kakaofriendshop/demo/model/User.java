@@ -2,6 +2,7 @@ package com.kakaofriendshop.demo.model;
 
 import java.util.Date;
 
+
 public class User {
 
 	String id;
@@ -10,15 +11,14 @@ public class User {
 	String email;
 	String image;
 	Date regDate;
-	String phone;
+	String phone_number;
 	String address;
 
-	
-	public String getPhone() {
-		return phone;
+	public String getPhone_number() {
+		return phone_number;
 	}
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhone_number(String phone_number) {
+		this.phone_number = phone_number;
 	}
 	public String getAddress() {
 		return address;

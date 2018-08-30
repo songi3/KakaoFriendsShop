@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kakaofriendshop.demo.model.Comment;
+import com.kakaofriendshop.demo.model.Product;
 import com.kakaofriendshop.demo.model.User;
 import com.kakaofriendshop.demo.service.CommentService;
+import com.kakaofriendshop.demo.service.PayService;
+import com.kakaofriendshop.demo.service.ProductService;
 import com.kakaofriendshop.demo.service.UserService;
 
 @Controller
@@ -30,6 +33,10 @@ public class HomeController {
 	CommentService commentService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	ProductService productService;
+	@Autowired
+	PayService payService;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -54,11 +61,29 @@ public class HomeController {
 		User sessionLoginInfo = (User) request.getSession().getAttribute("loginUser");
 		if (sessionLoginInfo != null) {
 			logger.info("sessionLoginInfo is exist");
-			return "sessionCheck";
+			return sessionLoginInfo;
 		}
 
 		logger.info("sessionLoginInfo is not exist");
 		return null;
+	}
+
+	// 상품구매 저장
+	@RequestMapping(value = "/purchaseProductCommit", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> purchaseProductCommit(String id, String corp_num, String product_code, String count, String settlement_method) {
+		
+		logger.info("purchaseProductCommit");
+		logger.info("purchaseProductCommit :: " + id + "/ " + corp_num);
+		
+		try {
+			payService.setOrderHistory(id, corp_num, product_code, count, settlement_method);
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	// 회원가입
@@ -67,6 +92,31 @@ public class HomeController {
 		logger.info("signup");
 
 		return "signup";
+	}
+
+	@RequestMapping(value = "/purchaseProduct", method = RequestMethod.GET)
+	@ResponseBody
+	public Object purchaseProduct(@RequestParam(value = "commentIndex") String commentIndex,
+			HttpServletRequest request) {
+		logger.info("purchaseProduct");
+
+		logger.info("purchaseProduct : index :: " + commentIndex);
+
+		try {
+			Product product = productService.getProduct(commentIndex);
+			logger.info("product code :: " + product.getProduct_code());
+
+			Map<String, Object> ProductMap = new HashMap<String, Object>();
+			ProductMap.put("product", product);
+
+			return ProductMap;
+
+		} catch (Exception e) {
+			logger.info("product code :: error ");
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
@@ -124,9 +174,10 @@ public class HomeController {
 		return null;
 	}
 
+	//회원가입 저장
 	@RequestMapping(value = "/signupCommit", method = RequestMethod.POST)
 	@ResponseBody
-	public Object signupCommit(User mkUser, HttpServletRequest request, Model model) {
+	public Object signupCommit(User mkUser) {
 		logger.info("signupCommit");
 		logger.info("id :: " + mkUser.getId() + " password :: " + mkUser.getPassword());
 
@@ -140,11 +191,9 @@ public class HomeController {
 			}
 
 			else {
-				logger.info("login success!");
+				logger.info("signup success!");
 				Map<String, Object> userMap = new HashMap<String, Object>();
 				userMap.put("user", user);
-
-				request.getSession().setAttribute("loginUser", user);
 
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			}

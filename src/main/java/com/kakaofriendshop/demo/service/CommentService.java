@@ -24,4 +24,8 @@ public class CommentService {
     public int getProductPrice(String commentIndex) throws Exception{
     	return commentMapper.getProductPrice(commentIndex);
     }
+   
+	/*public Comment getComment(String commentIndex) throws Exception {
+		return commentMapper.getComment(commentIndex);
+	}*/
 }

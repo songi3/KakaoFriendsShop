@@ -19,8 +19,7 @@ public class UserService {
 		return userMapper.checkUserAsPassword(userId, userPassword);
 	};
 	
-	public User createUser(User mkUser) throws Exception{
-		return userMapper.createUser(mkUser);
+	public void createUser(User mkUser) throws Exception{
+		userMapper.createUser(mkUser);
 	}
-
 }

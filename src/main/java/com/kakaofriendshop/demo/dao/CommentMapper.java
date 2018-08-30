@@ -9,4 +9,5 @@ public interface CommentMapper {
     public String getDual() throws Exception;
     public List<Comment> getAllComments() throws Exception;
     public int getProductPrice(String commentIndex) throws Exception;
+    public Comment getComment(String commentIndex) throws Exception;
 }

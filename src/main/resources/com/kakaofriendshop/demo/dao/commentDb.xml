@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kakaofriendshop.demo.dao.CommentMapper">
  
-    <select id="getAllComments" resultType="com.kakaofriendshop.demo.model.Comment">
+    <select id="getAllComments" resultType="com.kakaofriendshop.demo.domain.Comment">
 		select A.* , B.price from comments A, products B 
 		where A.corp_num = B.corp_num 
 		and A.product_code = B.product_code 	
 	</select>
 
-	<select id="getComment" resultType="com.kakaofriendshop.demo.model.Comment">
+	<select id="getComment" resultType="com.kakaofriendshop.demo.domain.Comment">
 			select A.* , B.price from comments A, products B 
 		where A.corp_num = B.corp_num 
 		and A.product_code = B.product_code 	

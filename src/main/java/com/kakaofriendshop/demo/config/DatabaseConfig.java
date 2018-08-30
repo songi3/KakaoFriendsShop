@@ -1,4 +1,4 @@
-package com.kakaofriendshop.demo;
+package com.kakaofriendshop.demo.config;
 
 import javax.sql.DataSource;
 

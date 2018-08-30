@@ -1,7 +1,10 @@
-package com.kakaofriendshop.demo.model;
+package com.kakaofriendshop.demo.domain;
 
 import java.util.Date;
 
+import org.hibernate.annotations.Entity;
+
+@Entity
 public class Comment {
 
 	int index;

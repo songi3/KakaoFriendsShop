@@ -1360,11 +1360,11 @@
 		display:none;
 	}
 	
-	.project-btn {
+	.mypage-btn {
 		display:none;
 	}
 	
-	.project-btn.on {
+	.mypage-btn.on {
 		display:block;
 	}
 /* Header */

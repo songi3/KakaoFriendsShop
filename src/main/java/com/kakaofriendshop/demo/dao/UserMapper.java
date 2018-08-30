@@ -2,7 +2,7 @@ package com.kakaofriendshop.demo.dao;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.kakaofriendshop.demo.model.User;
+import com.kakaofriendshop.demo.domain.User;
 
 public interface UserMapper {
 	/* DB Select  */

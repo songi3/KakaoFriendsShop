@@ -1,4 +1,4 @@
-package com.kakaofriendshop.demo.model;
+package com.kakaofriendshop.demo.domain;
 
 import java.util.Date;
 

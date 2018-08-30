@@ -3,7 +3,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <html>
 <head>
-<%@ include file="/WEB-INF/views/included/included_head.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/included/included_head.jsp"%> --%>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>KAKAO FRIENDS SHOP</title>
 </head>
@@ -47,6 +47,6 @@
 			</div>
 		</div>
 	</div>
-	<%@ include file="/WEB-INF/views/included/included_foot.jsp"%>
+	<%-- <%@ include file="/WEB-INF/views/included/included_foot.jsp"%> --%>
 </body>
 </html>

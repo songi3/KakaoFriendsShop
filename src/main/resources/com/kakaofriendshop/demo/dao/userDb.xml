@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kakaofriendshop.demo.dao.UserMapper">
  
-   <select id="checkUser" resultType="com.kakaofriendshop.demo.model.User">
+   <select id="checkUser" resultType="com.kakaofriendshop.demo.domain.User">
 		select * from user where id = #{userId}
 	</select>
 	
-	<select id="checkUserAsPassword" resultType="com.kakaofriendshop.demo.model.User">
+	<select id="checkUserAsPassword" resultType="com.kakaofriendshop.demo.domain.User">
 		select * from user where id = #{userId} and password = #{userPassword}
 	</select>
  
- 	<insert id="createUser" parameterType="com.kakaofriendshop.demo.model.User">
+ 	<insert id="createUser" parameterType="com.kakaofriendshop.demo.domain.User">
 		insert into user(id, password, name, email, reg_date, address, phone_number) values (#{id}, #{password}, #{name}, #{email}, now(), #{address}, #{phone_number})		
 	</insert>
  	

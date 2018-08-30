@@ -1,11 +1,13 @@
-package com.kakaofriendshop.demo.model;
+package com.kakaofriendshop.demo.domain;
 
 import java.util.Date;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.annotations.Entity;
 
+@Entity
 public class User {
 	@NotEmpty(message="아이디를 입력하세요.")
 	String id;

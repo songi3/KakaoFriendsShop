@@ -1,4 +1,4 @@
-package com.kakaofriendshop.demo.controller;
+package com.kakaofriendshop.demo.rest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,16 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.kakaofriendshop.demo.model.Comment;
-import com.kakaofriendshop.demo.model.Product;
-import com.kakaofriendshop.demo.model.User;
+import com.kakaofriendshop.demo.domain.Comment;
+import com.kakaofriendshop.demo.domain.Product;
+import com.kakaofriendshop.demo.domain.User;
 import com.kakaofriendshop.demo.service.CommentService;
 import com.kakaofriendshop.demo.service.PayService;
 import com.kakaofriendshop.demo.service.ProductService;
 import com.kakaofriendshop.demo.service.UserService;
 
-@Controller
+@RestController
 public class HomeController {
 
 	@Autowired
@@ -44,18 +45,11 @@ public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	@RequestMapping("/")
-	public String home(Model model) {
-		logger.info("/");
-
-		return "home";
-	}
-
-	@RequestMapping("/login")
+	/*@RequestMapping("/login")
 	public String login() throws Exception {
 		logger.info("login");
 		return "login";
-	}
+	}*/
 
 	@RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
 	@ResponseBody
@@ -91,12 +85,20 @@ public class HomeController {
 	}
 
 	// 회원가입
-	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup() {
 		logger.info("signup");
 
 		return "signup";
-	}
+	}*/
+	
+	// 마이 페이지
+	/*@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public String mypage() {
+		logger.info("mypage");
+
+		return "mypage";
+	}*/
 
 	@RequestMapping(value = "/purchaseProduct", method = RequestMethod.GET)
 	@ResponseBody
@@ -219,11 +221,11 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		logger.info("logout");
 		request.getSession().invalidate();
 
 		return "redirect:" + "/";
-	}
+	}*/
 }

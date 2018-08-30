@@ -8,12 +8,18 @@ $(document).ready(function() {
 		
 	 	$('.bx-wrapper').bxSlider();
 	 	
-	 	
+	 	setIncludeHtml();
 });
 
 /***************************************************************************
  * 함수
  **************************************************************************/
+
+function setIncludeHtml(){
+	$("head").load("/included/included_head.html");
+	$("#footer").load("/included/included_foot.html");
+	footer
+}
 
 //컨트롤러 호출
 function callController(url) {
@@ -39,11 +45,13 @@ function checkSession() {
 function setLogout() {
 	$('.login-btn').addClass("on");
 	$('.logout-btn').addClass("on");
+	$('.mypage-btn').addClass("on");
 }
 
 function setLogin(){
 	$('.login-btn').removeClass("on");
 	$('.logout-btn').removeClass("on");
+	$('.mypage-btn').removeClass("on");
 }
 
 //홈 화면 상품 리스트 출력 
@@ -250,3 +258,10 @@ function logoutButtonClickEvent(){
 	alert("로그아웃 되었습니다.");
 	callController('/logout');
 }
+
+//마이페이지 버튼 클릭
+function mypageButtonClickEvent(){
+	alert(location.pathname);
+
+}
+

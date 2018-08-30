@@ -1,6 +1,6 @@
 package com.kakaofriendshop.demo.dao;
 
-import com.kakaofriendshop.demo.model.Product;
+import com.kakaofriendshop.demo.domain.Product;
 
 public interface ProductMapper {
 	/* DB Select  */

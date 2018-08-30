@@ -1,10 +1,12 @@
 package com.kakaofriendshop.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -177,11 +181,24 @@ public class HomeController {
 	//회원가입 저장
 	@RequestMapping(value = "/signupCommit", method = RequestMethod.POST)
 	@ResponseBody
-	public Object signupCommit(User mkUser) {
+	public Object signupCommit(@Valid User mkUser, BindingResult result) {
 		logger.info("signupCommit");
 		logger.info("id :: " + mkUser.getId() + " password :: " + mkUser.getPassword());
 
+		//사용자가 모든 입력사항을 입력했는지 검증
+		if(result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			List<String> errorMsgs = new ArrayList<>();
+			for(ObjectError error : errors) {
+				errorMsgs.add(error.getDefaultMessage());
+				logger.info("signupCommit :: " + error.getDefaultMessage());
+			}
+			return errorMsgs;
+		}
+		
 		try {
+			
+			//DB에 새로운 사용자 저장
 			userService.createUser(mkUser);
 
 			User user = userService.checkUserAsPassword(mkUser.getId(), mkUser.getPassword());

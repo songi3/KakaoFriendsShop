@@ -12,12 +12,6 @@ $(document).ready(function() {
 });
 
 /***************************************************************************
- * 변수
- **************************************************************************/
-
-var loginID; //로그인 아이디
-
-/***************************************************************************
  * 함수
  **************************************************************************/
 
@@ -131,9 +125,21 @@ function signupCommitButtonClickEvent(){
 					"phone" : phone,
 					"address" : address
 				},
+		dataType:"JSON",
 		success : 
-			function() {
-			callController('/');
+			function(errorMsgs) {
+			
+			if(errorMsgs != null){
+				var message = "";
+				$.each(errorMsgs, function(key, value){
+					message = message + value + "<br>";	
+				});
+				
+				alertify.alert("경고", message);
+			}
+			else {
+				callController('/');
+			}
 		}
 	});
 }

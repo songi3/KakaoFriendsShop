@@ -111,7 +111,7 @@ function signupCommitButtonClickEvent(){
 	var password = $('#password').val();
 	var name = $('#name').val();
 	var email = $('#email').val();
-	var phone = $('#phone').val();
+	var phone_number = $('#phone_number').val();
 	var address = $('#address').val();
 
 	$.ajax({
@@ -122,14 +122,13 @@ function signupCommitButtonClickEvent(){
 					"password" : password,
 					"name" : name,
 					"email" : email,
-					"phone" : phone,
+					"phone_number" : phone_number,
 					"address" : address
 				},
-		dataType:"JSON",
 		success : 
 			function(errorMsgs) {
 			
-			if(errorMsgs != null){
+			if(errorMsgs != null && errorMsgs != ""){
 				var message = "";
 				$.each(errorMsgs, function(key, value){
 					message = message + value + "<br>";	
@@ -138,6 +137,7 @@ function signupCommitButtonClickEvent(){
 				alertify.alert("경고", message);
 			}
 			else {
+				alert("회원가입 되었습니다.");
 				callController('/');
 			}
 		}
@@ -164,7 +164,8 @@ function loginCheckButtonClickEvent(){
 					alertify.alert("알림", "로그인 정보가 없습니다.");
 				}
 				
-				else {			
+				else {	
+					alert("로그인 되었습니다.");
 					callController('/');
 				}
 		}
@@ -246,5 +247,6 @@ function purchaseProductEvent(e){
 
 //로그아웃 버튼 클릭
 function logoutButtonClickEvent(){
+	alert("로그아웃 되었습니다.");
 	callController('/logout');
 }

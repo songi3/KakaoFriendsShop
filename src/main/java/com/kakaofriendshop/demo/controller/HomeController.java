@@ -185,10 +185,12 @@ public class HomeController {
 		logger.info("signupCommit");
 		logger.info("id :: " + mkUser.getId() + " password :: " + mkUser.getPassword());
 
+		List<String> errorMsgs = null;
 		//사용자가 모든 입력사항을 입력했는지 검증
 		if(result.hasErrors()) {
+			errorMsgs = new ArrayList<>();
 			List<ObjectError> errors = result.getAllErrors();
-			List<String> errorMsgs = new ArrayList<>();
+			errorMsgs = new ArrayList<>();
 			for(ObjectError error : errors) {
 				errorMsgs.add(error.getDefaultMessage());
 				logger.info("signupCommit :: " + error.getDefaultMessage());
@@ -196,30 +198,25 @@ public class HomeController {
 			return errorMsgs;
 		}
 		
-		try {
+		else {
+			try {
+				//DB에 새로운 사용자 저장
+				userService.createUser(mkUser);
+				logger.info("signupCommit :: createUser");
+				
+				User user = userService.checkUserAsPassword(mkUser.getId(), mkUser.getPassword());
 			
-			//DB에 새로운 사용자 저장
-			userService.createUser(mkUser);
-
-			User user = userService.checkUserAsPassword(mkUser.getId(), mkUser.getPassword());
-			if (user == null) {
-				logger.info("user is not exist!");
-				return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-			}
-
-			else {
 				logger.info("signup success!");
-				Map<String, Object> userMap = new HashMap<String, Object>();
-				userMap.put("user", user);
+			
+				return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.OK);
+				
 
-				return new ResponseEntity<Void>(HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			return null;
 		}
-
-		return null;
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

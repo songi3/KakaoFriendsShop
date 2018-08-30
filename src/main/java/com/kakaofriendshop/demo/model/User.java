@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+
 public class User {
 	@NotEmpty(message="아이디를 입력하세요.")
 	String id;
@@ -15,7 +16,7 @@ public class User {
 	@NotEmpty(message="이름을 입력하세요.")
 	String name;
 	
-	@NotEmpty(message="아이디를 입력하세요.")
+	@NotEmpty(message="이메일을 입력하세요.")
 	@Email(message="이메일 형식이 올바르지 않습니다.")
 	String email;
 	

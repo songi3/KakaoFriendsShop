@@ -4,7 +4,8 @@ $(document).ready(function() {
 	/* 
 		 setTextAnimation();
 		 setImgSize();*/
-	
+		setProductList();
+		
 	 	$('.bx-wrapper').bxSlider();
 	 	
 	 	
@@ -43,6 +44,49 @@ function setLogout() {
 function setLogin(){
 	$('.login-btn').removeClass("on");
 	$('.logout-btn').removeClass("on");
+}
+
+function setProductList(){
+	
+	$.ajax({
+
+		url : "/setCommentList",
+		type : "get",
+		success : function(productList) {
+			$.each(productList, function(key, value){
+				var article = $("<article>", {"class" : "item " + value.index + "_item"});
+				article.appendTo($(".items"));
+				
+				var articleClassName = "." + value.index + "_item";
+				var headerClassName = "." + value.index + "_header";
+				
+				var header = $("<header>");
+				
+				var href = $("<a>", {"href" : "#", "onclick" : "productDetailEvent(this)", "id" : value.index});
+				var imgSrc = "/" + value.thumbnail;
+				href.html("<img src=" + imgSrc + " alt=" + value.index + " />" + "<h3>" + value.title + "</h3>");	
+				href.appendTo(header);
+				
+				var h3 = $("<h3>");
+				h3.html(value.title);
+				h3.appendTo(header);
+				
+				header.appendTo($(articleClassName));
+				
+				
+				
+				var p = $("<p>" , {"class" : "item-subtitle"});
+				p.html(value.sub_title);
+				p.appendTo($(articleClassName));
+				
+				var ul = $("<ul>" , {"class" : "actions"});
+				ul.html("<li><a href='#' class='button' onclick='commentDetailEvent(this)' id=" + value.index + ">More</a></li>");
+				ul.appendTo($(articleClassName));
+			
+			})
+
+		}
+	});
 }
 
 /***************************************************************************

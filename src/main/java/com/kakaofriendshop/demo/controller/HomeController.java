@@ -1,6 +1,7 @@
 package com.kakaofriendshop.demo.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,31 +18,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kakaofriendshop.demo.model.Comment;
 import com.kakaofriendshop.demo.model.User;
-import com.kakaofriendshop.demo.service.DbService;
+import com.kakaofriendshop.demo.service.CommentService;
 import com.kakaofriendshop.demo.service.UserService;
 
 @Controller
 public class HomeController {
-	 @Autowired
-	 DbService dbService;
-	 @Autowired
-	 UserService userService;
-	 
-	 private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	 
-    @RequestMapping("/")
-    public String home(){
-        return "home";
-    }
-    
-    @RequestMapping("/login")
-    public String login() throws Exception{
-    	logger.info("login");
-    	return "login";
-    }
-    
-    @RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
+
+	@Autowired
+	CommentService commentService;
+	@Autowired
+	UserService userService;
+
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+	@RequestMapping("/")
+	public String home(Model model) {
+		logger.info("/");
+
+		return "home";
+	}
+
+	@RequestMapping("/login")
+	public String login() throws Exception {
+		logger.info("login");
+		return "login";
+	}
+
+	@RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
 	@ResponseBody
 	public Object board(HttpServletRequest request) {
 		logger.info("sessionCheck");
@@ -55,26 +60,27 @@ public class HomeController {
 		logger.info("sessionLoginInfo is not exist");
 		return null;
 	}
-    
-    //회원가입 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+
+	// 회원가입
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup() {
 		logger.info("signup");
 
 		return "signup";
 	}
-    
-    @RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
 	@ResponseBody
-	public Object loginCheck(@RequestParam(value = "id")String id, @RequestParam(value = "password")String password, HttpServletRequest request, Model model) {
+	public Object loginCheck(@RequestParam(value = "id") String id, @RequestParam(value = "password") String password,
+			HttpServletRequest request, Model model) {
 		logger.info("loginCheck");
 		logger.info("id :: " + id + " password :: " + password);
-			
+
 		try {
 			User user = userService.checkUserAsPassword(id, password);
-		
+
 			logger.info("user :: " + user);
-			
+
 			if (user == null) {
 				logger.info("user is not exist!");
 			}
@@ -87,24 +93,46 @@ public class HomeController {
 				request.getSession().setAttribute("loginUser", user);
 
 				return userMap;
-			}		
-		
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				
+
 		return null;
 	}
-    
-    @RequestMapping(value = "/signupCommit", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/setCommentList", method = RequestMethod.GET)
+	@ResponseBody
+	public Object setCommentList(HttpServletRequest request) {
+		logger.info("setCommentList");
+
+		try {
+			List<Comment> commentsList = commentService.getAllComments();
+
+			logger.info("comments :: " + commentsList.size());
+
+			logger.info("comments is exist");
+			logger.info("comments count :: " + commentsList.size() + " :: " + commentsList.toString());
+
+			return new ResponseEntity<List<Comment>>(commentsList, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@RequestMapping(value = "/signupCommit", method = RequestMethod.POST)
 	@ResponseBody
 	public Object signupCommit(User mkUser, HttpServletRequest request, Model model) {
 		logger.info("signupCommit");
 		logger.info("id :: " + mkUser.getId() + " password :: " + mkUser.getPassword());
-			
+
 		try {
 			userService.createUser(mkUser);
-			
+
 			User user = userService.checkUserAsPassword(mkUser.getId(), mkUser.getPassword());
 			if (user == null) {
 				logger.info("user is not exist!");
@@ -119,23 +147,20 @@ public class HomeController {
 				request.getSession().setAttribute("loginUser", user);
 
 				return new ResponseEntity<Void>(HttpStatus.OK);
-			}		
-		
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				
+
 		return null;
 	}
-    
-    
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		logger.info("logout");
 		request.getSession().invalidate();
-		
+
 		return "redirect:" + "/";
 	}
 }
-
-

@@ -68,15 +68,13 @@ function setProductList(){
 				href.appendTo(header);
 				
 				var h3 = $("<h3>");
-				h3.html(value.title);
+				h3.html(value.sub_title);
 				h3.appendTo(header);
 				
 				header.appendTo($(articleClassName));
 				
-				
-				
 				var p = $("<p>" , {"class" : "item-subtitle"});
-				p.html(value.sub_title);
+				p.html(value.title + "<br>" + value.price + "원");
 				p.appendTo($(articleClassName));
 				
 				var ul = $("<ul>" , {"class" : "actions"});

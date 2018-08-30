@@ -8,4 +8,5 @@ public interface CommentMapper {
 	/* DB Select  */
     public String getDual() throws Exception;
     public List<Comment> getAllComments() throws Exception;
+    public int getProductPrice(String commentIndex) throws Exception;
 }

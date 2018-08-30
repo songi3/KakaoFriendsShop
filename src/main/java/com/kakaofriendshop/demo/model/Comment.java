@@ -15,8 +15,14 @@ public class Comment {
 	int like;
 	String thumbnail;
 	String use_YN;
+	int price;
 	
-	
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
 	public String getCorp_num() {
 		return corp_num;
 	}

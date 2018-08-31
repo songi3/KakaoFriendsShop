@@ -27,7 +27,7 @@ import com.kakaofriendshop.demo.domain.Comment;
 import com.kakaofriendshop.demo.domain.Product;
 import com.kakaofriendshop.demo.domain.User;
 import com.kakaofriendshop.demo.service.CommentServiceImpl;
-import com.kakaofriendshop.demo.service.PayServiceImpl;
+import com.kakaofriendshop.demo.service.OrderHistoryServiceImpl;
 import com.kakaofriendshop.demo.service.ProductServiceImpl;
 import com.kakaofriendshop.demo.service.UserServiceImpl;
 
@@ -44,11 +44,11 @@ public class HomeController {
 	ProductServiceImpl productService;
 	
 	@Autowired
-	PayServiceImpl payService;
+	OrderHistoryServiceImpl orderHistoryService;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	@RequestMapping(value = "/sessionLoginInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/sessionLoginInfo", method = RequestMethod.POST)
 	public Object getSessionLoginInfo(HttpServletRequest request) {
 		
 		logger.info("getSessionLoginInfo");
@@ -167,51 +167,51 @@ public class HomeController {
 		return new ResponseEntity<List<Comment>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	// 상품구매 저장
-	@RequestMapping(value = "/purchaseProductCommit", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<Object> purchaseProductCommit(String id, String corp_num, String product_code, String count, String settlement_method) {
-		
-		logger.info("purchaseProductCommit");
-		logger.info("purchaseProductCommit :: " + id + "/ " + corp_num);
-		
-		try {
-			payService.setOrderHistory(id, corp_num, product_code, count, settlement_method);
-		} catch (Exception e) {
-		
-			e.printStackTrace();
-		}
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/purchaseProduct", method = RequestMethod.GET)
-	@ResponseBody
-	public Object purchaseProduct(@RequestParam(value = "commentIndex") String commentIndex,
+	@RequestMapping(value = "/product", method = RequestMethod.GET)
+	public ResponseEntity<Product> getProduct(@RequestParam(value = "commentIndex") String commentIndex,
 			HttpServletRequest request) {
-		logger.info("purchaseProduct");
-
-		logger.info("purchaseProduct : index :: " + commentIndex);
+		
+		logger.info("getProduct");
+		logger.info("product : index :: " + commentIndex);
 
 		try {
-			Product product = productService.getProduct(commentIndex);
+			Product product = productService.findByIndex(commentIndex);
+			
+			if (product == null) {
+				return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
+			}
+			
 			logger.info("product code :: " + product.getProduct_code());
-
-			Map<String, Object> ProductMap = new HashMap<String, Object>();
-			ProductMap.put("product", product);
-
-			return ProductMap;
+	
+			return new ResponseEntity<Product>(product, HttpStatus.OK);
 
 		} catch (Exception e) {
 			logger.info("product code :: error ");
 			e.printStackTrace();
 		}
 
-		return null;
+		return new ResponseEntity<Product>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// 상품구매 저장
+	@RequestMapping(value = "/orderHistory", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Void> createOrderHistory(String id, String corp_num, String product_code, String count, String settlement_method) {
+		
+		logger.info("createOrderHistory");
+		logger.info("info :: " + id + "/ " + corp_num);
+		
+		try {
+			orderHistoryService.saveOrderHistory(id, corp_num, product_code, count, settlement_method);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	
-
-	
 	
 }

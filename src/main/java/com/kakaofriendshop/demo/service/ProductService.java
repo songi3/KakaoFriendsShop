@@ -8,5 +8,5 @@ import com.kakaofriendshop.demo.domain.Product;
  */
 
 public interface ProductService {
-	public Product getProduct(String commentIndex) throws Exception;
+	public Product findByIndex(String commentIndex) throws Exception;
 }

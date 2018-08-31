@@ -18,7 +18,7 @@ public class ProductServiceImpl implements ProductService{
 	ProductMapper productMapper;
 
 	@Override
-	public Product getProduct(String commentIndex) throws Exception {
-		return productMapper.getProduct(commentIndex);
+	public Product findByIndex(String commentIndex) throws Exception {
+		return productMapper.findByIndex(commentIndex);
 	}
 }

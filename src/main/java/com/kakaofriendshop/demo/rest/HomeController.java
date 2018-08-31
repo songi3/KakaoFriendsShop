@@ -48,8 +48,16 @@ public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
+	
+	/**
+	 * User
+	 * 세션에 저장된 로그인 사용자 정보 검색
+	 * 
+	 * @param request HttpServletRequest
+	 * @return ResponseEntity<User>
+	 * */
 	@RequestMapping(value = "/sessionLoginInfo", method = RequestMethod.POST)
-	public Object getSessionLoginInfo(HttpServletRequest request) {
+	public ResponseEntity<User> getSessionLoginInfo(HttpServletRequest request) {
 		
 		logger.info("getSessionLoginInfo");
 
@@ -62,12 +70,36 @@ public class HomeController {
 		}
 
 		logger.info("sessionLoginInfo is not exist");
-		return null;
+		return new ResponseEntity<User>(sessionLoginInfo, HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * User
+	 * 세션 저장된 정보 삭제
+	 * 
+	 * @param request HttpServletRequest
+	 * @return ResponseEntity<Void>
+	 * */
+	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
+	public ResponseEntity<Void> logout(HttpServletRequest request) {
+		logger.info("logout");
+		request.getSession().invalidate();
+
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	/**
+	 * User
+	 * 단일 사용자 검색
+	 * 
+	 * @param id user ID
+	 * @param password user PASSWORD 
+	 * @param request HttpServletRequest
+	 * @return ResponseEntity<User>
+	 * */
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	public ResponseEntity<User> getUser(@RequestParam(value = "id") String id, @RequestParam(value = "password") String password,
-			HttpServletRequest request, Model model) {
+			HttpServletRequest request) {
 		
 		logger.info("/user/login");
 		logger.info("id :: " + id + " password :: " + password);
@@ -95,14 +127,14 @@ public class HomeController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
-	public ResponseEntity<Object> logout(HttpServletRequest request) {
-		logger.info("logout");
-		request.getSession().invalidate();
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
+	/**
+	 * User
+	 * 단일 사용자 생성
+	 * 
+	 * @param user object to be created
+	 * @param result BindingResult
+	 * @return ResponseEntity<List<String>>
+	 * */
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public ResponseEntity<List<String>> createUser(@Valid User mkUser, BindingResult result) {
 	
@@ -111,7 +143,15 @@ public class HomeController {
 
 		List<String> errorMsgs = new ArrayList<>();
 		
-		//사용자의 입력사항을 검증
+		try {		
+		
+		//아이디 존재 여부 확인
+		if (userService.isUserExist(mkUser)) {
+			errorMsgs.add("아이디가 중복되었습니다.");
+			return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.CONFLICT);
+		}
+		
+		//사용자의 입력사항 검증
 		if(result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
 			for(ObjectError error : errors) {
@@ -121,28 +161,27 @@ public class HomeController {
 			return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		else {
-			try {				
-				//아이디 이미 존재 하는지 검증
-				if (userService.isUserExist(mkUser)) {
-					errorMsgs.add("아이디가 중복되었습니다.");
-					return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.CONFLICT);
-				}
-					
-				//DB에 새로운 사용자 저장
+		else {		
+				//단일 사용자 생성
 				userService.createUser(mkUser);
 				logger.info("signup success!");
 			
-				return new ResponseEntity<List<String>>(HttpStatus.OK);	
-
-			} catch (Exception e) {
-				e.printStackTrace();
+				return new ResponseEntity<List<String>>(HttpStatus.OK);		
 			}
-
-			return new ResponseEntity<List<String>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return new ResponseEntity<List<String>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	/**
+	 * Comment
+	 * 다중 게시물 검색
+	 * 
+	 * @param request HttpServletRequest
+	 * @return ResponseEntity<List<Comment>>
+	 * */
 	@RequestMapping(value = "/comment", method = RequestMethod.GET)
 	public ResponseEntity<List<Comment>> listAllComments(HttpServletRequest request) {
 		
@@ -167,6 +206,14 @@ public class HomeController {
 		return new ResponseEntity<List<Comment>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	/**
+	 * Product
+	 * 게시물 번호를 이용한 단일 상품 검색
+	 * 
+	 * @param commentIndex index of comment
+	 * @param request HttpServletRequest
+	 * @return ResponseEntity<Product>
+	 * */
 	@RequestMapping(value = "/product", method = RequestMethod.GET)
 	public ResponseEntity<Product> getProduct(@RequestParam(value = "commentIndex") String commentIndex,
 			HttpServletRequest request) {
@@ -193,9 +240,18 @@ public class HomeController {
 		return new ResponseEntity<Product>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	// 상품구매 저장
+	/**
+	 * OrderHistory
+	 * 구매 이력 생성
+	 * 
+	 * @param id String
+	 * @param corp_num String
+	 * @param product_code String
+	 * @param count String
+	 * @param settlement_method String
+	 * @return ResponseEntity<Void>
+	 * */
 	@RequestMapping(value = "/orderHistory", method = RequestMethod.POST)
-	@ResponseBody
 	public ResponseEntity<Void> createOrderHistory(String id, String corp_num, String product_code, String count, String settlement_method) {
 		
 		logger.info("createOrderHistory");

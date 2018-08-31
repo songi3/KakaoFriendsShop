@@ -35,7 +35,7 @@ function checkSession() {
 	$.ajax({
 
 		url : "/sessionLoginInfo",
-		type : "get",
+		type : "post",
 		success : function(sessionCheck) {
 			if (!sessionCheck) { // 로그아웃 중
 				setLogin();
@@ -310,8 +310,6 @@ function purchaseProductEvent(e) {
 		}
 	});
 }
-
-
 
 // 마이페이지 버튼 클릭
 function mypageButtonClickEvent() {

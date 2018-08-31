@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kakaofriendshop.demo.domain.Comment;
+import com.kakaofriendshop.demo.domain.OrderHistory;
 import com.kakaofriendshop.demo.domain.Product;
 import com.kakaofriendshop.demo.domain.User;
 import com.kakaofriendshop.demo.service.CommentServiceImpl;
@@ -248,13 +249,13 @@ public class HomeController {
 	 * @return ResponseEntity<Void>
 	 * */
 	@RequestMapping(value = "/orderHistory", method = RequestMethod.POST)
-	public ResponseEntity<Void> createOrderHistory(String id, String corp_num, String product_code, String count, String settlement_method) {
+	public ResponseEntity<Void> createOrderHistory(@RequestBody OrderHistory orderHistory) {
 		
 		logger.info("createOrderHistory");
-		logger.info("info :: " + id + "/ " + corp_num);
+		logger.info("info :: " + orderHistory.getId() + "/ " + orderHistory.getCorp_num());
 		
 		try {
-			orderHistoryService.saveOrderHistory(id, corp_num, product_code, count, settlement_method);
+			orderHistoryService.saveOrderHistory(orderHistory.getId(), orderHistory.getCorp_num(), orderHistory.getProduct_code(), orderHistory.getCount(), orderHistory.getSettlement_method());
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 			
 		} catch (Exception e) {

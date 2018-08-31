@@ -286,13 +286,14 @@ function purchaseProductEvent(e) {
 
 							url : "/orderHistory",
 							type : "post",
-							data : {
+							data : JSON.stringify({
 								"id" : id,
 								"corp_num" : corp_num,
 								"product_code" : product_code,
 								"count" : "1",
 								"settlement_method" : "credit-card"
-							},
+							}),
+							contentType: 'application/json',
 							error : function(){
 								alertify.alert("경고", "에러발생");
 							},

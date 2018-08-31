@@ -103,7 +103,6 @@ public class HomeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	//회원가입 저장
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public ResponseEntity<List<String>> createUser(@Valid User mkUser, BindingResult result) {
 	
@@ -123,8 +122,7 @@ public class HomeController {
 		}
 		
 		else {
-			try {		
-				
+			try {				
 				//아이디 이미 존재 하는지 검증
 				if (userService.isUserExist(mkUser)) {
 					errorMsgs.add("아이디가 중복되었습니다.");
@@ -145,6 +143,29 @@ public class HomeController {
 		}
 	}
 
+	@RequestMapping(value = "/comment", method = RequestMethod.GET)
+	public ResponseEntity<List<Comment>> listAllComments(HttpServletRequest request) {
+		
+		logger.info("listAllComments");
+
+		try {
+			List<Comment> commentsList = commentService.findAllComments();
+
+			if (commentsList.isEmpty()) {
+				return new ResponseEntity<List<Comment>>(HttpStatus.NO_CONTENT);
+			}
+			
+			logger.info("comments is exist");
+			logger.info("comments count :: " + commentsList.size());
+
+			return new ResponseEntity<List<Comment>>(commentsList, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<List<Comment>>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 	// 상품구매 저장
 	@RequestMapping(value = "/purchaseProductCommit", method = RequestMethod.POST)
@@ -163,22 +184,6 @@ public class HomeController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
-	// 회원가입
-	/*@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup() {
-		logger.info("signup");
-
-		return "signup";
-	}*/
-	
-	// 마이 페이지
-	/*@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String mypage() {
-		logger.info("mypage");
-
-		return "mypage";
-	}*/
 
 	@RequestMapping(value = "/purchaseProduct", method = RequestMethod.GET)
 	@ResponseBody
@@ -206,34 +211,7 @@ public class HomeController {
 	}
 
 	
-	@RequestMapping(value = "/setCommentList", method = RequestMethod.GET)
-	@ResponseBody
-	public Object setCommentList(HttpServletRequest request) {
-		logger.info("setCommentList");
-
-		try {
-			List<Comment> commentsList = commentService.getAllComments();
-
-			logger.info("comments :: " + commentsList.size());
-
-			logger.info("comments is exist");
-			logger.info("comments count :: " + commentsList.size() + " :: " + commentsList.toString());
-
-			return new ResponseEntity<List<Comment>>(commentsList, HttpStatus.OK);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
 
 	
-	/*@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpServletRequest request) {
-		logger.info("logout");
-		request.getSession().invalidate();
-
-		return "redirect:" + "/";
-	}*/
+	
 }

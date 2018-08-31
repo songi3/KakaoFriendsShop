@@ -64,69 +64,51 @@ function setLogin() {
 // 홈 화면 상품 리스트 출력
 function setProductList() {
 
-	$
-			.ajax({
+	$.ajax({
 
-				url : "/setCommentList",
-				type : "get",
-				success : function(productList) {
-					$
-							.each(
-									productList,
-									function(key, value) {
-										var article = $("<article>", {
-											"class" : "item " + value.index
-													+ "_item"
-										});
-										article.appendTo($(".items"));
-
-										var articleClassName = "."
-												+ value.index + "_item";
-										var headerClassName = "." + value.index
-												+ "_header";
-
-										var header = $("<header>");
-
-										var href = $(
-												"<a>",
-												{
-													"href" : "#",
-													"onclick" : "productDetailEvent(this)",
-													"id" : value.index
-												});
-										var imgSrc = "/" + value.thumbnail;
-										href.html("<img src=" + imgSrc
-												+ " alt=" + value.index + " />"
-												+ "<h3>" + value.title
-												+ "</h3>");
-										href.appendTo(header);
-
-										var h3 = $("<h3>");
-										h3.html(value.sub_title);
-										h3.appendTo(header);
-
-										header.appendTo($(articleClassName));
-
-										var p = $("<p>", {
-											"class" : "item-subtitle"
-										});
-										p.html(value.title + "<br>"
-												+ value.price + "원");
-										p.appendTo($(articleClassName));
-
-										var ul = $("<ul>", {
-											"class" : "actions"
-										});
-										ul
-												.html("<li><a href='#' class='button' onclick='purchaseProductEvent(this)' id="
-														+ value.index
-														+ ">Purchase</a></li>");
-										ul.appendTo($(articleClassName));
-
-									})
-
-				}
+		url : "/comment",
+		type : "get",
+		success : function(commentsList) {
+			$.each(commentsList, function(key, value) {
+				var article = $("<article>", {
+					"class" : "item " + value.index + "_item"
 			});
+				
+			article.appendTo($(".items"));
+			var articleClassName = "." + value.index + "_item";
+			var headerClassName = "." + value.index + "_header";
+			var header = $("<header>");
+			var href = $(
+			"<a>",
+			{
+				"href" : "#",
+				"onclick" : "productDetailEvent(this)",
+				"id" : value.index
+			});
+			var imgSrc = "/" + value.thumbnail;
+			href.html("<img src=" + imgSrc + " alt=" + value.index + " />" + "<h3>" + value.title + "</h3>");
+			href.appendTo(header);
+
+			var h3 = $("<h3>");
+			h3.html(value.sub_title);
+			h3.appendTo(header);
+
+			header.appendTo($(articleClassName));
+
+			var p = $("<p>", {
+				"class" : "item-subtitle"
+			});
+			p.html(value.title + "<br>"
+					+ value.price + "원");
+			p.appendTo($(articleClassName));
+
+			var ul = $("<ul>", { "class" : "actions" });
+			ul.html("<li><a href='#' class='button' onclick='purchaseProductEvent(this)' id=" + value.index
+							+ ">Purchase</a></li>");
+			ul.appendTo($(articleClassName));
+			})
+		}
+	});
 }
 
 
@@ -135,19 +117,47 @@ function setProductList() {
  ******************************************************************************/
 
 /**
- * 로그인 
+ * 로그인
+ * 버튼 클릭
  * 상단 네비 로그인 버튼 클릭 시 login.html 이동
  */
 function loginButtonClickEvent() {
 	callURL('../../login.html');
 }
 
+/**
+ * 홈
+ * 버튼 클릭
+ * 상단 네비 홈 버튼 클릭 시 index.html 이동
+ */
 function homeButtonClickEvent() {
 	callURL('/');
 }
 
+/**
+ * 회원가입
+ * 버튼 클릭
+ * 상단 네비 회원가입 버튼 클릭 시 signup.html 이동
+ */
 function signupButtonClickEvent() {
 	callURL('../../signup.html');
+}
+
+/**
+ * 로그인
+ * 버튼 클릭
+ * 상단 네비 로그아웃 버튼 클릭 시
+ */
+function logoutButtonClickEvent() {
+
+	$.ajax({
+		url : "/user/logout",
+		type : "get",
+		success : function() {
+			alert("로그아웃 되었습니다.");
+			callURL('/');
+		}
+	});
 }
 
 /**
@@ -155,6 +165,7 @@ function signupButtonClickEvent() {
  * 회원가입 페이지 정보 입력 후 SIGN UP 버튼 클릭 시
  */
 function signupCommitButtonClickEvent() {
+	
 	var id = $('#id').val();
 	var password = $('#password').val();
 	var name = $('#name').val();
@@ -282,27 +293,12 @@ function purchaseProductEvent(e) {
 						});
 					}
 				});
-
 			}
 		}
 	});
 }
 
-/**
- * 로그인 
- * 상단 네비 로그아웃 버튼 클릭 시
- */
-function logoutButtonClickEvent() {
 
-	$.ajax({
-		url : "/user/logout",
-		type : "get",
-		success : function() {
-			alert("로그아웃 되었습니다.");
-			callURL('/');
-		}
-	});
-}
 
 // 마이페이지 버튼 클릭
 function mypageButtonClickEvent() {

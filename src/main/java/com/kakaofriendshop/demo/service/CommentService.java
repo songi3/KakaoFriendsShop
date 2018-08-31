@@ -11,6 +11,6 @@ import com.kakaofriendshop.demo.domain.Comment;
 
 public interface CommentService {
 		public String getDual() throws Exception;
-	    public List<Comment> getAllComments() throws Exception;
+	    public List<Comment> findAllComments() throws Exception;
 	    public int getProductPrice(String commentIndex) throws Exception;
 }

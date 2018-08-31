@@ -24,8 +24,8 @@ public class CommentServiceImpl implements CommentService{
     }
 	
 	@Override
-    public List<Comment> getAllComments() throws Exception{
-    	return commentMapper.getAllComments();
+    public List<Comment> findAllComments() throws Exception{
+    	return commentMapper.findAllComments();
     }
 	
 	@Override

@@ -36,11 +36,11 @@ function checkSession() {
 
 		url : "/sessionLoginInfo",
 		type : "post",
+		error : function(sessionLoginInfo) {
+			setLogin();
+		},
 		success : function(sessionCheck) {
-			if (!sessionCheck) { // 로그아웃 중
-				setLogin();
-
-			} else { // 로그인 중
+			if (sessionCheck) { // 로그인 중 
 				setLogout();
 			}
 		}
@@ -250,64 +250,64 @@ function purchaseProductEvent(e) {
 
 		url : "/sessionLoginInfo",
 		type : "post",
+		error : function(sessionLoginInfo) {
+			
+			// 로그아웃 중
+			alertify.confirm("알림", "로그인이 필요합니다. 로그인창으로 이동하시겠습니까?",
+				function() {
+					loginButtonClickEvent();
+				}, function() {
+					alertify.error('취소되었습니다.');
+			});
+		},
 		success : function(sessionLoginInfo) {
 
 			user = sessionLoginInfo;
+			
+			// 로그인 중
+			$.ajax({
+				url : "/product",
+				type : "get",
+				data : {
+					"commentIndex" : commentIndex
+				},
+				success : function(product) {
 
-			if (!sessionLoginInfo) { // 로그아웃 중
-				alertify.confirm("알림", "로그인이 필요합니다. 로그인창으로 이동하시겠습니까?",
-					function() {
-						loginButtonClickEvent();
-					}, function() {
+					alertify.confirm("구매", product.product_name + "(가격 "
+							+ product.price + "원)을(를) 구매하시겠습니까?", 
+						function() {
+						
+						//구매 확인 클릭 시 
+						var id = user.id;
+						var corp_num = product.corp_num;
+						var product_code = product.product_code;
 
-				});
-			}
+						$.ajax({
 
-			else { // 로그인 중
-
-				$.ajax({
-					url : "/product",
-					type : "get",
-					data : {
-						"commentIndex" : commentIndex
-					},
-					success : function(product) {
-
-						alertify.confirm("구매", product.product_name + "(가격 "
-								+ product.price + "원)을(를) 구매하시겠습니까?", 
-							function() {
-							
-							//구매 확인 클릭 시 
-							var id = user.id;
-							var corp_num = product.corp_num;
-							var product_code = product.product_code;
-
-							$.ajax({
-
-								url : "/orderHistory",
-								type : "post",
-								data : {
-									"id" : id,
-									"corp_num" : corp_num,
-									"product_code" : product_code,
-									"count" : "1",
-									"settlement_method" : "credit-card"
-								},
-								error : function(){
-									alertify.alert("경고", "에러발생");
-								},
-								success : function() {
-									alertify.success('구매되었습니다.');
-								}
-							});
-						}, function() {
-							//구매 취소 클릭 시 
-							alertify.error('취소되었습니다.');
+							url : "/orderHistory",
+							type : "post",
+							data : {
+								"id" : id,
+								"corp_num" : corp_num,
+								"product_code" : product_code,
+								"count" : "1",
+								"settlement_method" : "credit-card"
+							},
+							error : function(){
+								alertify.alert("경고", "에러발생");
+							},
+							success : function() {
+								alertify.success('구매되었습니다.');
+							}
 						});
-					}
-				});
-			}
+					}, function() {
+						//구매 취소 클릭 시 
+						alertify.error('취소되었습니다.');
+					});
+				}
+			});
 		}
+		
 	});
 }
 

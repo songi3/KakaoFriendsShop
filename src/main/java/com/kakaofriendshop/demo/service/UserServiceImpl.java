@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public User checkUserAsPassword(String userId, String userPassword) throws Exception{
-		return userMapper.checkUserAsPassword(userId, userPassword);
+	public User findUserByIdPwd(String userId, String userPassword) throws Exception{
+		return userMapper.findUserByIdPwd(userId, userPassword);
 	}
 	
 	@Override

@@ -1,13 +1,11 @@
 package com.kakaofriendshop.demo.domain;
 
-import javax.persistence.Entity;
-
 /**
  * Product Entity
  *
  */
 
-@Entity
+
 public class Product {
 
 	String corp_num;

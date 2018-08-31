@@ -5,6 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import com.kakaofriendshop.demo.domain.Comment;
 
+/**
+ * Repository for Comment entity
+ *
+ */
+
+@Repository
 public interface CommentMapper {
 	/* DB Select  */
     public String getDual() throws Exception;

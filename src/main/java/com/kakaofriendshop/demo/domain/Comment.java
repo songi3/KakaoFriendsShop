@@ -2,15 +2,11 @@ package com.kakaofriendshop.demo.domain;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-
-
 /**
  * Comment Entity
  *
  */
 
-@Entity
 public class Comment {
 
 	int index;

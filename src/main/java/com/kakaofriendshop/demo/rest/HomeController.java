@@ -26,22 +26,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kakaofriendshop.demo.domain.Comment;
 import com.kakaofriendshop.demo.domain.Product;
 import com.kakaofriendshop.demo.domain.User;
-import com.kakaofriendshop.demo.service.CommentService;
-import com.kakaofriendshop.demo.service.PayService;
-import com.kakaofriendshop.demo.service.ProductService;
-import com.kakaofriendshop.demo.service.UserService;
+import com.kakaofriendshop.demo.service.CommentServiceImpl;
+import com.kakaofriendshop.demo.service.PayServiceImpl;
+import com.kakaofriendshop.demo.service.ProductServiceImpl;
+import com.kakaofriendshop.demo.service.UserServiceImpl;
 
 @RestController
 public class HomeController {
 
 	@Autowired
-	CommentService commentService;
+	CommentServiceImpl commentService;
+	
 	@Autowired
-	UserService userService;
+	UserServiceImpl userService;
+	
 	@Autowired
-	ProductService productService;
+	ProductServiceImpl productService;
+	
 	@Autowired
-	PayService payService;
+	PayServiceImpl payService;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -51,15 +54,17 @@ public class HomeController {
 		return "login";
 	}*/
 
-	@RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
-	@ResponseBody
-	public Object board(HttpServletRequest request) {
-		logger.info("sessionCheck");
+	@RequestMapping(value = "/sessionLoginInfo", method = RequestMethod.GET)
+	public Object getSessionLoginInfo(HttpServletRequest request) {
+		
+		logger.info("sessionLoginInfo");
 
 		User sessionLoginInfo = (User) request.getSession().getAttribute("loginUser");
+		
 		if (sessionLoginInfo != null) {
+			
 			logger.info("sessionLoginInfo is exist");
-			return sessionLoginInfo;
+			return new ResponseEntity<User>(sessionLoginInfo, HttpStatus.OK);
 		}
 
 		logger.info("sessionLoginInfo is not exist");

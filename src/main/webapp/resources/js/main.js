@@ -16,9 +16,8 @@ $(document).ready(function() {
  **************************************************************************/
 
 function setIncludeHtml(){
-	$("head").load("/included/included_head.html");
-	$("#footer").load("/included/included_foot.html");
-	footer
+	/*$("head").load("/included/included_head.html");
+	$("#footer").load("/included/included_foot.html");*/
 }
 
 //컨트롤러 호출
@@ -26,15 +25,19 @@ function callController(url) {
 	$(location).attr('href', url);
 }
 
+/**
+ * 세션 로그인 정보 확인 
+ * */
 function checkSession() {
+	
 	$.ajax({
 
-		url : "/sessionCheck",
+		url : "/sessionLoginInfo",
 		type : "get",
 		success : function(sessionCheck) {
 			if (!sessionCheck) { // 로그아웃 중
 				setLogin();
-
+				
 			} else { // 로그인 중
 				setLogout();
 			}
@@ -102,7 +105,7 @@ function setProductList(){
  **************************************************************************/
 
 function loginButtonClickEvent(){
-	callController('/login');
+	callController('../../login.html');
 }
 
 function homeButtonClickEvent(){
@@ -190,7 +193,7 @@ function purchaseProductEvent(e){
 	//로그인 체크
 	$.ajax({
 
-		url : "/sessionCheck",
+		url : "/sessionLoginInfo",
 		type : "get",
 		success : function(sessionLoginInfo) {
 			

@@ -1,16 +1,11 @@
 package com.kakaofriendshop.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+/**
+ * PayService interface
+ * 
+ */
 
-import com.kakaofriendshop.demo.dao.PayMapper;
-
-@Service
-public class PayService implements PayServiceImpl{
-	@Autowired
-	PayMapper payMapper;
-	@Override
-	public void setOrderHistory(String id, String corp_num, String product_code, String count, String settlement_method) throws Exception{
-		payMapper.setOrderHistory(id, corp_num, product_code, count, settlement_method);
-	}
+public interface PayService{
+	public void setOrderHistory(String id, String corp_num, String product_code, String count, String settlement_method)
+			throws Exception;
 }

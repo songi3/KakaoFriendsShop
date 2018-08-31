@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User checkUser(String userId) throws Exception{
-		return userMapper.checkUser(userId);
+		return userMapper.findUserById(userId);
 	}
 	
 	@Override
@@ -30,5 +30,20 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void createUser(User mkUser) throws Exception{
 		userMapper.createUser(mkUser);
+	}
+	
+	@Override
+	public Boolean isUserExist(User user) throws Exception{
+		
+		if (user.getId() != null) {
+			final User existingUser = userMapper.findUserById(user.getId());
+			if (existingUser == null) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}	
 	}
 }

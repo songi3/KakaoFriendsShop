@@ -48,12 +48,6 @@ public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	/*@RequestMapping("/login")
-	public String login() throws Exception {
-		logger.info("login");
-		return "login";
-	}*/
-
 	@RequestMapping(value = "/sessionLoginInfo", method = RequestMethod.GET)
 	public Object getSessionLoginInfo(HttpServletRequest request) {
 		
@@ -107,6 +101,48 @@ public class HomeController {
 		request.getSession().invalidate();
 
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	//회원가입 저장
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	public ResponseEntity<List<String>> createUser(@Valid User mkUser, BindingResult result) {
+	
+		logger.info("createUser");
+		logger.info("id :: " + mkUser.getId() + " password :: " + mkUser.getPassword());
+
+		List<String> errorMsgs = new ArrayList<>();
+		
+		//사용자의 입력사항을 검증
+		if(result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			for(ObjectError error : errors) {
+				errorMsgs.add(error.getDefaultMessage());
+				logger.info("createUser :: " + error.getDefaultMessage());
+			}
+			return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		else {
+			try {		
+				
+				//아이디 이미 존재 하는지 검증
+				if (userService.isUserExist(mkUser)) {
+					errorMsgs.add("아이디가 중복되었습니다.");
+					return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.CONFLICT);
+				}
+					
+				//DB에 새로운 사용자 저장
+				userService.createUser(mkUser);
+				logger.info("signup success!");
+			
+				return new ResponseEntity<List<String>>(HttpStatus.OK);	
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return new ResponseEntity<List<String>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	
@@ -192,47 +228,7 @@ public class HomeController {
 		return null;
 	}
 
-	//회원가입 저장
-	@RequestMapping(value = "/signupCommit", method = RequestMethod.POST)
-	@ResponseBody
-	public Object signupCommit(@Valid User mkUser, BindingResult result) {
-		logger.info("signupCommit");
-		logger.info("id :: " + mkUser.getId() + " password :: " + mkUser.getPassword());
-
-		List<String> errorMsgs = null;
-		//사용자가 모든 입력사항을 입력했는지 검증
-		if(result.hasErrors()) {
-			errorMsgs = new ArrayList<>();
-			List<ObjectError> errors = result.getAllErrors();
-			errorMsgs = new ArrayList<>();
-			for(ObjectError error : errors) {
-				errorMsgs.add(error.getDefaultMessage());
-				logger.info("signupCommit :: " + error.getDefaultMessage());
-			}
-			return errorMsgs;
-		}
-		
-		else {
-			try {
-				//DB에 새로운 사용자 저장
-				userService.createUser(mkUser);
-				logger.info("signupCommit :: createUser");
-				
-				/*User user = userService.checkUserAsPassword(mkUser.getId(), mkUser.getPassword());*/
-			
-				logger.info("signup success!");
-			
-				return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.OK);
-				
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return null;
-		}
-	}
-
+	
 	/*@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		logger.info("logout");

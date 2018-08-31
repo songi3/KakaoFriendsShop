@@ -2,10 +2,14 @@ package com.kakaofriendshop.demo.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.annotations.Entity;
+/**
+ * User Entity
+ *
+ */
 
 @Entity
 public class User {
@@ -30,55 +34,89 @@ public class User {
 	
 	@NotEmpty(message="주소를 입력하세요.")
 	String address;
-
-	public String getPhone_number() {
-		return phone_number;
-	}
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	
+	/**
+	 * Id getter, setter
+	 */
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	/**
+	 * Password getter, setter
+	 */
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	/**
+	 * Name getter, setter
+	 */
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * Email getter, setter
+	 */
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	/**
+	 * Image getter, setter
+	 */
 	public String getImage() {
 		return image;
 	}
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	/**
+	 * RegDate getter, setter
+	 */
 	public Date getRegDate() {
 		return regDate;
 	}
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
+	
+	/**
+	 * Phone_number getter, setter
+	 */
+	public String getPhone_number() {
+		return phone_number;
+	}
+	public void setPhone_number(String phone_number) {
+		this.phone_number = phone_number;
+	}
+	
+	/**
+	 * Address getter, setter
+	 */
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	
+	
 	
 	
 }

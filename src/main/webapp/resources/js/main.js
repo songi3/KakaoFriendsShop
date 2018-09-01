@@ -235,9 +235,7 @@ function pulseAnimation(item){
 }
 
 function setTextAnimation(){
-	$(".main").mouseenter(function(){
-		bounceAnimation(".main h2");
-	  });
+
 	$("#header h1").mouseenter(function(){
 		pulseAnimation("#header h1");
 	  });

@@ -31,13 +31,16 @@ function setCommentInfo(){
 			h1.text(comment.title);
 			
 			var companyDiv = $(".company");
-			companyDiv.html("<i class='fa fa-user'></i>" + comment.corp_num);
+			companyDiv.html("<i class='fa fa-user'></i> " + comment.corp_num);
 			
 			var regDateDiv = $(".regDate");
-			regDateDiv.html("<i class='fa fa-table'></i>" + comment.reg_date);
+			regDateDiv.html("<i class='fa fa-table'></i> " + comment.reg_date);
 			
 			var commentContent = $(".comment-content");
-			commentContent.text(comment.comment);
+			commentContent.html(comment.comment);
+			
+			var priceDiv = $(".price");
+			priceDiv.text(comment.price + "원");
 		}
 	});
 	

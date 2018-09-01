@@ -5,7 +5,8 @@
     <select id="findAllComments" resultType="com.kakaofriendshop.demo.domain.Comment">
 		select A.* , B.price from comments A, products B 
 		where A.corp_num = B.corp_num 
-		and A.product_code = B.product_code 	
+		and A.product_code = B.product_code 
+		order by A.index	
 	</select>
 
 	<select id="findCommentByIndex" resultType="com.kakaofriendshop.demo.domain.Comment">

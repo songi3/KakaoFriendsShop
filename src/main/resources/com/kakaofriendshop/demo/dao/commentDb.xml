@@ -8,8 +8,8 @@
 		and A.product_code = B.product_code 	
 	</select>
 
-	<select id="getComment" resultType="com.kakaofriendshop.demo.domain.Comment">
-			select A.* , B.price from comments A, products B 
+	<select id="findCommentByIndex" resultType="com.kakaofriendshop.demo.domain.Comment">
+		select A.* , B.price from comments A, products B 
 		where A.corp_num = B.corp_num 
 		and A.product_code = B.product_code 	
 		and A.index = #{commentIndex}

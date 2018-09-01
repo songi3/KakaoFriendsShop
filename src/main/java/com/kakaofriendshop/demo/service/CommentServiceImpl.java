@@ -32,8 +32,9 @@ public class CommentServiceImpl implements CommentService{
     public int getProductPrice(String commentIndex) throws Exception{
     	return commentMapper.getProductPrice(commentIndex);
     }
-   
-	/*public Comment getComment(String commentIndex) throws Exception {
-		return commentMapper.getComment(commentIndex);
-	}*/
+	
+	@Override
+	public Comment findCommentByIndex(String commentIndex) throws Exception {
+		return commentMapper.findCommentByIndex(commentIndex);
+	}
 }

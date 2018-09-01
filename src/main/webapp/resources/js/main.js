@@ -123,8 +123,8 @@ function setProductList() {
 			p.appendTo($(articleClassName));
 
 			var ul = $("<ul>", { "class" : "actions" });
-			ul.html("<li><a href='#' class='button' onclick='purchaseProductEvent(this)' id=" + value.index
-							+ ">BUY</a></li>");
+			ul.html("<li><a href='#' class='button' onclick='productDetailEvent(this)' id=" + value.index
+							+ ">MORE</a></li>");
 			ul.appendTo($(articleClassName));
 			})
 		}
@@ -275,82 +275,14 @@ function loginCheckButtonClickEvent() {
 	});
 }
 
-/**
- * 상품
- * 상품 구매 버튼 클릭 시 
- * */
-function purchaseProductEvent(e) {
 
+
+// 프로젝트, 커멘트 디테일 페이지 이동
+function productDetailEvent(e){
 	var commentIndex = e.id;
-	var user;
-	var product;
-
-	// 로그인 체크
-	$.ajax({
-
-		url : "/sessionLoginInfo",
-		type : "post",
-		error : function(sessionLoginInfo) {
-			
-			// 로그아웃 중
-			alertify.confirm("알림", "로그인이 필요합니다. 로그인창으로 이동하시겠습니까?",
-				function() {
-					loginButtonClickEvent();
-				}, function() {
-					alertify.error('취소되었습니다.');
-			});
-		},
-		success : function(sessionLoginInfo) {
-
-			user = sessionLoginInfo;
-			
-			// 로그인 중
-			$.ajax({
-				url : "/product/" + commentIndex + "?commentIndex=" + commentIndex,
-				type : "get",
-				success : function(product) {
-
-					alertify.confirm("구매", product.product_name + "(가격 "
-							+ product.price + "원)을(를) 구매하시겠습니까?", 
-						function() {
-						
-						//구매 확인 클릭 시 
-						var id = user.id;
-						var corp_num = product.corp_num;
-						var product_code = product.product_code;
-						var product_price = product.price;
-						
-						$.ajax({
-
-							url : "/orderHistory",
-							type : "post",
-							data : JSON.stringify({
-								"id" : id,
-								"corp_num" : corp_num,
-								"product_code" : product_code,
-								"count" : "1",
-								"settlement_method" : "credit-card",
-								"price" : product_priceS
-							}),
-							contentType: 'application/json',
-							error : function(){
-								alertify.alert("경고", "에러발생");
-							},
-							success : function() {
-								alertify.success('구매되었습니다.');
-							}
-						});
-					}, function() {
-						//구매 취소 클릭 시 
-						alertify.error('취소되었습니다.');
-					});
-				}
-			});
-		}
-		
-	});
+	callURL('/commentDetail.html?commentIndex=' + commentIndex);
 }
-
+	
 function orderhistoryListClickEvent() {
 
 	var pListOrderhistory = $('.list-orderhistory');

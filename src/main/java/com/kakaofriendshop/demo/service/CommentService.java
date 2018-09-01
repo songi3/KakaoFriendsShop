@@ -13,4 +13,5 @@ public interface CommentService {
 		public String getDual() throws Exception;
 	    public List<Comment> findAllComments() throws Exception;
 	    public int getProductPrice(String commentIndex) throws Exception;
+	    public Comment findCommentByIndex(String commentIndex) throws Exception;
 }

@@ -1,4 +1,16 @@
 
+var contextPath = fn_GetContextRoot();
+
+/**
+ * 마이페이지
+ * 컨텍스트패스 설정
+ */
+function fn_GetContextRoot() {
+	var offset=location.href.indexOf(location.host)+location.host.length;
+	var UniPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	return UniPath;
+};
+
 /**
  * 마이페이지
  * 버튼 클릭
@@ -48,7 +60,7 @@ function orderhistoryListClickEvent() {
 
 	$.ajax({
 
-		url : "/sessionLoginInfo",
+		url : contextPath + "/sessionLoginInfo",
 		type : "post",
 		error : function(sessionLoginInfo) {	
 			// 로그아웃 중
@@ -64,7 +76,7 @@ function orderhistoryListClickEvent() {
 				
 				$.ajax({
 
-					url : "/orderHistory/" + sessionLoginInfo.id + "?id=" + sessionLoginInfo.id,
+					url : contextPath + "/orderHistory/" + sessionLoginInfo.id + "?id=" + sessionLoginInfo.id,
 					type : "get",
 					error : function(sessionLoginInfo) {
 						

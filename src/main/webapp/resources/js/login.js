@@ -1,11 +1,23 @@
 
+var contextPath = fn_GetContextRoot();
+
 /**
- * 메인 
+ * 로그인 
  * URL 호출
  */
 function callURL(url) {
-	$(location).attr('href', url);
+	$(location).attr('href', contextPath + url);
 }
+
+/**
+ * 로그인
+ * 컨텍스트패스 설정
+ */
+function fn_GetContextRoot() {
+	var offset=location.href.indexOf(location.host)+location.host.length;
+	var UniPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	return UniPath;
+};
 
 /**
  * 로그인 
@@ -17,7 +29,7 @@ function loginCheckButtonClickEvent() {
 	var password = $('#password').val();
 
 	$.ajax({
-		url : "/user/login",
+		url : contextPath + "/user/login",
 		type : "post",
 		data : JSON.stringify({
 			"id" : id,

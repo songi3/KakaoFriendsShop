@@ -1,10 +1,11 @@
 
+var contextPath = fn_GetContextRoot();
+
 $(document).ready(function() {
 	checkSession();
 	setProductList();
 	setTextAnimation();
 	$('.bx-wrapper').bxSlider();
-
 });
 
 /**
@@ -56,7 +57,7 @@ function animateMoveDiv(divName, duration) {
  * URL 호출
  */
 function callURL(url) {
-	$(location).attr('href', url);
+	$(location).attr('href', contextPath + url);
 }
 
 /**
@@ -67,7 +68,7 @@ function checkSession() {
 
 	$.ajax({
 
-		url : "/sessionLoginInfo",
+		url : contextPath + "/sessionLoginInfo",
 		type : "post",
 		error : function(sessionLoginInfo) {
 			setLogin();
@@ -98,13 +99,23 @@ function setLogin() {
 
 /**
  * 메인
+ * 컨텍스트패스 설정
+ */
+function fn_GetContextRoot() {
+	var offset=location.href.indexOf(location.host)+location.host.length;
+	var UniPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	return UniPath;
+};
+
+/**
+ * 메인
  * 홈 화면 로딩 시 게시물 목록 표시
  */
 function setProductList() {
-
+	
 	$.ajax({
 
-		url : "/comment",
+		url : contextPath + "/comment",
 		type : "get",
 		success : function(commentsList) {
 			$.each(commentsList, function(key, value) {
@@ -124,7 +135,7 @@ function setProductList() {
 				"id" : value.index
 			});
 			
-			var imgSrc = "/" + value.thumbnail;
+			var imgSrc = value.thumbnail;
 			href.html("<img src=" + imgSrc + " alt=" + value.index + " />" + "<h3>" + value.title + "</h3>");
 			href.appendTo(header);
 
@@ -160,7 +171,7 @@ function setProductList() {
  * 상단 네비 로그인 버튼 클릭 시 login.html 이동
  */
 function loginButtonClickEvent() {
-	callURL('../../login.html');
+	callURL('/login.html');
 }
 
 /**
@@ -169,7 +180,7 @@ function loginButtonClickEvent() {
  * 상단 네비 홈 버튼 클릭 시 index.html 이동
  */
 function homeButtonClickEvent() {
-	callURL('/');
+	callURL('');
 }
 
 /**
@@ -178,7 +189,7 @@ function homeButtonClickEvent() {
  * 상단 네비 마이페이지 버튼 클릭 시 mypage.html 이동
  */
 function mypageButtonClickEvent() {
-	callURL('../../mypage.html');
+	callURL('/mypage.html');
 }
 
 /**
@@ -187,7 +198,7 @@ function mypageButtonClickEvent() {
  * 상단 네비 회원가입 버튼 클릭 시 signup.html 이동
  */
 function signupButtonClickEvent() {
-	callURL('../../signup.html');
+	callURL('/signup.html');
 }
 
 /**
@@ -198,7 +209,7 @@ function signupButtonClickEvent() {
 function logoutButtonClickEvent() {
 
 	$.ajax({
-		url : "/user/logout",
+		url : contextPath + "/user/logout",
 		type : "delete",
 		success : function() {
 			alert("로그아웃 되었습니다.");

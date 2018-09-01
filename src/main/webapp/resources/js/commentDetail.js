@@ -1,4 +1,6 @@
 
+var contextPath = fn_GetContextRoot();
+
 $(document).ready(function() {
 	setCommentInfo();
 });
@@ -24,7 +26,7 @@ function setCommentInfo(){
 	
 	$.ajax({
 
-		url : "/comment/" + commentIndex + "?commentIndex=" + commentIndex,
+		url : contextPath + "/comment/" + commentIndex + "?commentIndex=" + commentIndex,
 		type : "get",
 		error : function(comment) {
 			alert("해당 게시물이 없습니다.");
@@ -70,6 +72,16 @@ function paramsFunc(paramsList, paramsNm) {
 	}
 }
 
+/**
+ * 게시물
+ * 컨텍스트패스 설정
+ */
+function fn_GetContextRoot() {
+	var offset=location.href.indexOf(location.host)+location.host.length;
+	var UniPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	return UniPath;
+};
+
 /*******************************************************************************
  * 클릭 이벤트 각종 버튼, 리소스 클릭 시
  ******************************************************************************/
@@ -86,7 +98,7 @@ function buyButtonClickEvent() {
 	// 로그인 체크
 	$.ajax({
 
-		url : "/sessionLoginInfo",
+		url : contextPath + "/sessionLoginInfo",
 		type : "post",
 		error : function(sessionLoginInfo) {
 			
@@ -104,7 +116,7 @@ function buyButtonClickEvent() {
 			
 			// 로그인 중
 			$.ajax({
-				url : "/product/" + commentIndex + "?commentIndex=" + commentIndex,
+				url : contextPath + "/product/" + commentIndex + "?commentIndex=" + commentIndex,
 				type : "get",
 				success : function(product) {
 
@@ -120,7 +132,7 @@ function buyButtonClickEvent() {
 						
 						$.ajax({
 
-							url : "/orderHistory",
+							url : contextPath + "/orderHistory",
 							type : "post",
 							data : JSON.stringify({
 								"id" : id,

@@ -306,7 +306,7 @@ function purchaseProductEvent(e) {
 			
 			// 로그인 중
 			$.ajax({
-				url : "/product?commentIndex=" + commentIndex,
+				url : "/product/" + commentIndex + "?commentIndex=" + commentIndex,
 				type : "get",
 				success : function(product) {
 

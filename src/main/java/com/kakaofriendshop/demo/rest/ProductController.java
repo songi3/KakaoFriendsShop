@@ -33,7 +33,7 @@ public class ProductController {
 	 * 상품 확인 200 OK
 	 * 서버 이상 500 Internal Server Error
 	 * */
-	@RequestMapping(value = "/product", method = RequestMethod.GET)
+	@RequestMapping(value = "/product/{commentIndex}", method = RequestMethod.GET)
 	public ResponseEntity<Product> getProduct(String commentIndex,
 			HttpServletRequest request) {
 		

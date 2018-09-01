@@ -25,7 +25,7 @@ public class User {
 	String email;
 	
 	String image;
-	Date regDate;
+	Date reg_date;
 	
 	@NotEmpty(message="휴대폰 번호를 입력하세요.")
 	String phone_number;
@@ -84,13 +84,13 @@ public class User {
 	}
 	
 	/**
-	 * RegDate getter, setter
+	 * Reg_date getter, setter
 	 */
-	public Date getRegDate() {
-		return regDate;
+	public Date getReg_date() {
+		return reg_date;
 	}
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
 	}
 	
 	/**

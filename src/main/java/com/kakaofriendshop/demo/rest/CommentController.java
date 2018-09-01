@@ -27,7 +27,6 @@ public class CommentController {
 	 * Comment
 	 * 다중 게시물 검색
 	 * 
-	 * @param request HttpServletRequest
 	 * @return ResponseEntity<List<Comment>>
 	 * 
 	 * 게시물 미확인 204 No Content
@@ -35,7 +34,7 @@ public class CommentController {
 	 * 서버 이상 500 Internal Server Error
 	 * */
 	@RequestMapping(value = "/comment", method = RequestMethod.GET)
-	public ResponseEntity<List<Comment>> listAllComments(HttpServletRequest request) {
+	public ResponseEntity<List<Comment>> listAllComments() {
 		
 		logger.info("listAllComments");
 

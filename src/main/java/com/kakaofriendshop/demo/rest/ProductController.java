@@ -23,7 +23,7 @@ public class ProductController {
 	
 	/**
 	 * Product
-	 * 게시물 번호를 이용한 단일 상품 검색
+	 * 단일 상품 검색
 	 * 
 	 * @param commentIndex index of comment
 	 * @param request HttpServletRequest

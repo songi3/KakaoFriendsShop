@@ -14,8 +14,8 @@ public class OrderHistory {
 	String corp_num;
 	String product_code;
 	String count;
-	Date regDate;
-	Date upDate;
+	Date reg_date;
+	Date up_date;
 	String settlement_method;
 	
 	public int getIndex() {
@@ -48,17 +48,17 @@ public class OrderHistory {
 	public void setCount(String count) {
 		this.count = count;
 	}
-	public Date getRegDate() {
-		return regDate;
+	public Date getReg_date() {
+		return reg_date;
 	}
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
 	}
-	public Date getUpDate() {
-		return upDate;
+	public Date getUp_date() {
+		return up_date;
 	}
-	public void setUpDate(Date upDate) {
-		this.upDate = upDate;
+	public void setUp_date(Date up_date) {
+		this.up_date = up_date;
 	}
 	public String getSettlement_method() {
 		return settlement_method;

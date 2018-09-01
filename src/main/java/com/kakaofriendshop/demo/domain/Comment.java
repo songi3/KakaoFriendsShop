@@ -19,7 +19,7 @@ public class Comment {
 	String comment;
 	int like;
 	String thumbnail;
-	String use_YN;
+	String use_yn;
 	int price;
 	
 	/**
@@ -133,13 +133,13 @@ public class Comment {
 	}
 	
 	/**
-	 * Use_YN getter, setter
+	 * Use_yn getter, setter
 	 */
-	public String getUse_YN() {
-		return use_YN;
+	public String getUse_yn() {
+		return use_yn;
 	}
-	public void setUse_YN(String use_YN) {
-		this.use_YN = use_YN;
+	public void setUse_yn(String use_yn) {
+		this.use_yn = use_yn;
 	}
 
 }

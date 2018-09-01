@@ -1,8 +1,12 @@
 package com.kakaofriendshop.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.kakaofriendshop.demo.dao.OrderHistoryMapper;
+import com.kakaofriendshop.demo.domain.OrderHistory;
 
 /**
  * OrderHistoryService Implementation
@@ -19,4 +23,9 @@ public class OrderHistoryServiceImpl implements OrderHistoryService{
 	public void saveOrderHistory(String id, String corp_num, String product_code, String count, String settlement_method) throws Exception{
 		orderHistoryMapper.saveOrderHistory(id, corp_num, product_code, count, settlement_method);
 	}
+	
+	@Override
+    public List<OrderHistory> findOrderHistoriesById(String userId) throws Exception{
+    	return orderHistoryMapper.findOrderHistoriesById(userId);
+    }
 }

@@ -1,5 +1,7 @@
 package com.kakaofriendshop.demo.domain;
 
+import java.util.Date;
+
 /**
  * Product Entity
  *
@@ -14,6 +16,8 @@ public class Product {
 	String n_origin;
 	String c_origin;
 	int price;
+	Date reg_date;
+	Date up_date;
 	
 	/**
 	 * Corp_num getter, setter
@@ -66,16 +70,30 @@ public class Product {
 	public void setC_origin(String c_origin) {
 		this.c_origin = c_origin;
 	}
-	
-	/**
-	 * Price getter, setter
-	 */
 	public int getPrice() {
 		return price;
 	}
 	public void setPrice(int price) {
 		this.price = price;
 	}
+
+	/**
+	 * Price getter, setter
+	 */
+	public Date getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
+	}
+	public Date getUp_date() {
+		return up_date;
+	}
+	public void setUp_date(Date up_date) {
+		this.up_date = up_date;
+	}
+	
+	
 	
 	
 }

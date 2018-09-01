@@ -1,4 +1,6 @@
 
+var contextPath = "/KakaoFriendsShop";
+
 /**
  * 회원가입 
  * 회원가입 페이지 정보 입력 후 SIGN UP 버튼 클릭 시
@@ -13,7 +15,7 @@ function signupCommitButtonClickEvent() {
 	var address = $('#address').val();
 
 	$.ajax({
-		url : "/user",
+		url : contextPath + "/user",
 		type : "post",
 		data : JSON.stringify({
 			"id" : id,

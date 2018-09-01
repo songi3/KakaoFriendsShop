@@ -1,4 +1,6 @@
 
+var contextPath = "/KakaoFriendsShop";
+
 $(document).ready(function() {
 	checkSession();
 	setProductList();
@@ -56,7 +58,7 @@ function animateMoveDiv(divName, duration) {
  * URL 호출
  */
 function callURL(url) {
-	$(location).attr('href', url);
+	$(location).attr('href', "/KakaoFriendsShop" + url);
 }
 
 /**
@@ -67,7 +69,7 @@ function checkSession() {
 
 	$.ajax({
 
-		url : "/sessionLoginInfo",
+		url : contextPath + "/sessionLoginInfo",
 		type : "post",
 		error : function(sessionLoginInfo) {
 			setLogin();
@@ -104,7 +106,7 @@ function setProductList() {
 
 	$.ajax({
 
-		url : "/comment",
+		url : contextPath + "/comment",
 		type : "get",
 		success : function(commentsList) {
 			$.each(commentsList, function(key, value) {
@@ -124,7 +126,7 @@ function setProductList() {
 				"id" : value.index
 			});
 			
-			var imgSrc = "/" + value.thumbnail;
+			var imgSrc = value.thumbnail;
 			href.html("<img src=" + imgSrc + " alt=" + value.index + " />" + "<h3>" + value.title + "</h3>");
 			href.appendTo(header);
 
@@ -160,7 +162,7 @@ function setProductList() {
  * 상단 네비 로그인 버튼 클릭 시 login.html 이동
  */
 function loginButtonClickEvent() {
-	callURL('../../login.html');
+	callURL('/login.html');
 }
 
 /**
@@ -178,7 +180,7 @@ function homeButtonClickEvent() {
  * 상단 네비 마이페이지 버튼 클릭 시 mypage.html 이동
  */
 function mypageButtonClickEvent() {
-	callURL('../../mypage.html');
+	callURL('/mypage.html');
 }
 
 /**
@@ -187,7 +189,7 @@ function mypageButtonClickEvent() {
  * 상단 네비 회원가입 버튼 클릭 시 signup.html 이동
  */
 function signupButtonClickEvent() {
-	callURL('../../signup.html');
+	callURL('/signup.html');
 }
 
 /**
@@ -198,7 +200,7 @@ function signupButtonClickEvent() {
 function logoutButtonClickEvent() {
 
 	$.ajax({
-		url : "/user/logout",
+		url : contextPath + "/user/logout",
 		type : "delete",
 		success : function() {
 			alert("로그아웃 되었습니다.");

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kakaofriendshop.demo.dao.ProductMapper">
+ 
+   <select id="findByIndex" resultType="com.kakaofriendshop.demo.domain.Product">
+		select B.* from comments A, products B 
+		where A.corp_num = B.corp_num 
+		and A.product_code = B.product_code 	
+		and A.index = #{commentIndex}
+	</select>
+ 	
+</mapper>

@@ -1,10 +1,12 @@
 
+var contextPath = "/KakaoFriendsShop";
+
 /**
  * 메인 
  * URL 호출
  */
 function callURL(url) {
-	$(location).attr('href', url);
+	$(location).attr('href', "/KakaoFriendsShop" + url);
 }
 
 /**
@@ -17,7 +19,7 @@ function loginCheckButtonClickEvent() {
 	var password = $('#password').val();
 
 	$.ajax({
-		url : "/user/login",
+		url : contextPath + "/user/login",
 		type : "post",
 		data : JSON.stringify({
 			"id" : id,

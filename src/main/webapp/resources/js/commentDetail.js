@@ -1,4 +1,6 @@
 
+var contextPath = "/KakaoFriendsShop";
+
 $(document).ready(function() {
 	setCommentInfo();
 });
@@ -24,7 +26,7 @@ function setCommentInfo(){
 	
 	$.ajax({
 
-		url : "/comment/" + commentIndex + "?commentIndex=" + commentIndex,
+		url : contextPath + "/comment/" + commentIndex + "?commentIndex=" + commentIndex,
 		type : "get",
 		error : function(comment) {
 			alert("해당 게시물이 없습니다.");
@@ -86,7 +88,7 @@ function buyButtonClickEvent() {
 	// 로그인 체크
 	$.ajax({
 
-		url : "/sessionLoginInfo",
+		url : contextPath + "/sessionLoginInfo",
 		type : "post",
 		error : function(sessionLoginInfo) {
 			
@@ -104,7 +106,7 @@ function buyButtonClickEvent() {
 			
 			// 로그인 중
 			$.ajax({
-				url : "/product/" + commentIndex + "?commentIndex=" + commentIndex,
+				url : contextPath + "/product/" + commentIndex + "?commentIndex=" + commentIndex,
 				type : "get",
 				success : function(product) {
 
@@ -120,7 +122,7 @@ function buyButtonClickEvent() {
 						
 						$.ajax({
 
-							url : "/orderHistory",
+							url : contextPath + "/orderHistory",
 							type : "post",
 							data : JSON.stringify({
 								"id" : id,

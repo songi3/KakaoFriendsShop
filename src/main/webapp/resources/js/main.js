@@ -21,6 +21,19 @@ function setIncludeHtml() {
 	 */
 }
 
+function topButtonClickEvent(){
+	animateMoveDiv('body', 400);
+}
+
+//애니메이션 해당 div 이동
+function animateMoveDiv(divName, duration) {
+	var div = $(divName);
+	var divOffsetTop = div.offset().top;
+	$('html, body').animate({
+		scrollTop : divOffsetTop
+	}, duration); // 400
+}
+
 // 컨트롤러 호출
 function callURL(url) {
 	$(location).attr('href', url);
@@ -39,8 +52,8 @@ function checkSession() {
 		error : function(sessionLoginInfo) {
 			setLogin();
 		},
-		success : function(sessionCheck) {
-			if (sessionCheck) { // 로그인 중 
+		success : function(sessionLoginInfo) {
+			if (sessionLoginInfo) { // 로그인 중 
 				setLogout();
 			}
 		}
@@ -118,10 +131,26 @@ function setProductList() {
 	});
 }
 
-
 /*******************************************************************************
  * 클릭 이벤트 각종 버튼, 리소스 클릭 시
  ******************************************************************************/
+
+//TOP 버튼
+$(function() {
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > 500) {
+			$('.topMoveBtn').fadeIn();
+		} else {
+			$('.topMoveBtn').fadeOut();
+		}
+	});
+
+	$(".topMoveBtn").click(function() {
+		topButtonClickEvent();
+	});
+	return false;
+});
+
 
 /**
  * 로그인
@@ -139,6 +168,15 @@ function loginButtonClickEvent() {
  */
 function homeButtonClickEvent() {
 	callURL('/');
+}
+
+/**
+ * 마이페이지
+ * 버튼 클릭
+ * 상단 네비 마이페이지 버튼 클릭 시 mypage.html 이동
+ */
+function mypageButtonClickEvent() {
+	callURL('../../mypage.html');
 }
 
 /**
@@ -280,7 +318,8 @@ function purchaseProductEvent(e) {
 						var id = user.id;
 						var corp_num = product.corp_num;
 						var product_code = product.product_code;
-
+						var product_price = product.price;
+						
 						$.ajax({
 
 							url : "/orderHistory",
@@ -290,7 +329,8 @@ function purchaseProductEvent(e) {
 								"corp_num" : corp_num,
 								"product_code" : product_code,
 								"count" : "1",
-								"settlement_method" : "credit-card"
+								"settlement_method" : "credit-card",
+								"price" : product_priceS
 							}),
 							contentType: 'application/json',
 							error : function(){
@@ -311,8 +351,117 @@ function purchaseProductEvent(e) {
 	});
 }
 
-// 마이페이지 버튼 클릭
-function mypageButtonClickEvent() {
-	alert(location.pathname);
+function orderhistoryListClickEvent() {
 
+	var pListOrderhistory = $('.list-orderhistory');
+	var table = $(".list-orderhistory-table");
+	
+	var headerDetail = $(".header-detail");
+	headerDetail.addClass("on");
+	
+	//초기화
+	table.empty();
+	
+	var tr = $("<tr>");
+	var th = $("<th>");
+	th.text("아이디");
+	th.appendTo(tr);
+	
+	var th = $("<th>");
+	th.text("구매 품명");
+	th.appendTo(tr);
+	
+	var th = $("<th>");
+	th.text("구매 시간");
+	th.appendTo(tr);
+		
+	var th = $("<th>");
+	th.text("구매 방법");
+	th.appendTo(tr);
+	
+	var th = $("<th>");
+	th.text("가격");
+	th.appendTo(tr);
+	
+	var th = $("<th>");
+	th.text("수량");
+	th.appendTo(tr);
+	
+	var th = $("<th>");
+	th.text("총 구매 가격");
+	th.appendTo(tr);
+	
+	tr.appendTo(table);
+
+	$.ajax({
+
+		url : "/sessionLoginInfo",
+		type : "post",
+		error : function(sessionLoginInfo) {	
+			// 로그아웃 중
+			alertify.confirm("알림", "로그인이 필요합니다. 로그인창으로 이동하시겠습니까?",
+				function() {
+					loginButtonClickEvent();
+				}, function() {
+					alertify.error('취소되었습니다.');
+			});
+		},
+		success : function(sessionLoginInfo) {
+			if (sessionLoginInfo) { // 로그인 중 
+				
+				$.ajax({
+
+					url : "/orderHistory/" + sessionLoginInfo.id + "?id=" + sessionLoginInfo.id,
+					type : "get",
+					error : function(sessionLoginInfo) {
+						
+					},
+					success : function(orderHistoriesList) {
+						if (orderHistoriesList) { // 로그인 중 
+							
+							
+							var pListOrderhistory = $('.list-orderhistory');
+				
+							$.each(orderHistoriesList, function(key, value) {
+								
+								var tr = $("<tr>");
+								
+								var td = $("<td>");
+								td.text(value.id);
+								td.appendTo(tr);
+								
+								var td = $("<td>");
+								td.text(value.product_code);
+								td.appendTo(tr);
+								
+								var td = $("<td>");
+								td.text(value.reg_date);
+								td.appendTo(tr);
+								
+								var td = $("<td>");
+								td.text(value.settlement_method);
+								td.appendTo(tr);
+								
+								var td = $("<td>");
+								td.text(value.price);
+								td.appendTo(tr);
+								
+								var td = $("<td>");
+								td.text(value.count);
+								td.appendTo(tr);
+								
+								var td = $("<td>");
+								td.text(value.price * value.count);
+								td.appendTo(tr);
+						
+								tr.appendTo(table);
+								
+							});		
+						}
+					}
+				});
+			}
+		}
+	});
 }
+

@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.kakaofriendshop.demo.domain.Comment;
 import com.kakaofriendshop.demo.domain.OrderHistory;
 import com.kakaofriendshop.demo.service.OrderHistoryServiceImpl;
 
@@ -62,13 +60,13 @@ public class OrderHistoryController {
 	 * 구매이력 확인 200 OK
 	 * 서버 이상 500 Internal Server Error
 	 * */
-	@RequestMapping(value = "/orderHistory", method = RequestMethod.GET)
-	public ResponseEntity<List<OrderHistory>> listOrderHistoriesById(String userId) {
+	@RequestMapping(value = "/orderHistory/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<OrderHistory>> listOrderHistoriesById(String id) {
 		
 		logger.info("listOrderHistoriesById");
 	
 		try {
-			List<OrderHistory> orderHistoriesList = orderHistoryService.findOrderHistoriesById(userId);
+			List<OrderHistory> orderHistoriesList = orderHistoryService.findOrderHistoriesById(id);
 
 			if (orderHistoriesList.isEmpty()) {
 				return new ResponseEntity<List<OrderHistory>>(HttpStatus.NO_CONTENT);

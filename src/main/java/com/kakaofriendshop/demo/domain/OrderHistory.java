@@ -17,6 +17,7 @@ public class OrderHistory {
 	Date reg_date;
 	Date up_date;
 	String settlement_method;
+	int price;
 	
 	public int getIndex() {
 		return index;
@@ -65,6 +66,12 @@ public class OrderHistory {
 	}
 	public void setSettlement_method(String settlement_method) {
 		this.settlement_method = settlement_method;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
 	}
 	
 	

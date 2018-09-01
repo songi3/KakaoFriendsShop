@@ -2,7 +2,7 @@
 $(document).ready(function() {
 	checkSession();
 	setProductList();
-
+	setTextAnimation();
 	$('.bx-wrapper').bxSlider();
 
 });
@@ -129,7 +129,7 @@ function setProductList() {
 			href.appendTo(header);
 
 			var h3 = $("<h3>");
-			h3.html(value.sub_title);
+			h3.html(value.title);
 			h3.appendTo(header);
 
 			header.appendTo($(articleClassName));
@@ -137,7 +137,7 @@ function setProductList() {
 			var p = $("<p>", {
 				"class" : "item-subtitle"
 			});
-			p.html(value.title + "<br>"
+			p.html(value.sub_title + "<br>"
 					+ value.price + "원");
 			p.appendTo($(articleClassName));
 
@@ -217,3 +217,28 @@ function productDetailEvent(e){
 	callURL('/commentDetail.html?commentIndex=' + commentIndex);
 }
 	
+
+/***************************************************************************
+ * 애니메이션
+ **************************************************************************/
+
+function bounceAnimation(item){
+	$(item).jAnimate('bounce');
+}
+
+function fadeInUpAnimation(item){
+	$(item).jAnimate('fadeInUp');
+}
+
+function pulseAnimation(item){
+	$(item).jAnimate('pulse');
+}
+
+function setTextAnimation(){
+	$(".main").mouseenter(function(){
+		bounceAnimation(".main h2");
+	  });
+	$("#header h1").mouseenter(function(){
+		pulseAnimation("#header h1");
+	  });
+}

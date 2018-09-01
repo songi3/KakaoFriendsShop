@@ -183,14 +183,15 @@ function signupCommitButtonClickEvent() {
 	$.ajax({
 		url : "/user",
 		type : "post",
-		data : {
+		data : JSON.stringify({
 			"id" : id,
 			"password" : password,
 			"name" : name,
 			"email" : email,
 			"phone_number" : phone_number,
 			"address" : address
-		},
+		}),
+		contentType: 'application/json',
 		error : function(errorMsgs) {
 			if (errorMsgs != null && errorMsgs != "") {
 				var message = "";
@@ -221,10 +222,11 @@ function loginCheckButtonClickEvent() {
 	$.ajax({
 		url : "/user/login",
 		type : "post",
-		data : {
+		data : JSON.stringify({
 			"id" : id,
 			"password" : password
-		},
+		}),
+		contentType: 'application/json',
 		error : function() {
 			alertify.alert("알림", "로그인 정보가 없습니다.");
 		},
@@ -266,11 +268,8 @@ function purchaseProductEvent(e) {
 			
 			// 로그인 중
 			$.ajax({
-				url : "/product",
+				url : "/product?commentIndex=" + commentIndex,
 				type : "get",
-				data : {
-					"commentIndex" : commentIndex
-				},
 				success : function(product) {
 
 					alertify.confirm("구매", product.product_name + "(가격 "

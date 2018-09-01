@@ -52,6 +52,9 @@ public class HomeController {
 	 * 
 	 * @param request HttpServletRequest
 	 * @return ResponseEntity<User>
+	 * 
+	 * 세션 사용자 정보 확인 200 OK
+	 * 세션 사용자 정보 미확인 404 Not Found
 	 * */
 	@RequestMapping(value = "/sessionLoginInfo", method = RequestMethod.POST)
 	public ResponseEntity<User> getSessionLoginInfo(HttpServletRequest request) {
@@ -93,16 +96,19 @@ public class HomeController {
 	 * @param password user PASSWORD 
 	 * @param request HttpServletRequest
 	 * @return ResponseEntity<User>
+	 * 
+	 * 사용자 정보 미확인 404 Not Found
+	 * 사용자 정보 확인 200 OK
+	 * 서버 이상 500 Internal Server Error
 	 * */
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public ResponseEntity<User> getUser(@RequestParam(value = "id") String id, @RequestParam(value = "password") String password,
-			HttpServletRequest request) {
+	public ResponseEntity<User> getUser(@RequestBody User tempUser, HttpServletRequest request) {
 		
 		logger.info("/user/login");
-		logger.info("id :: " + id + " password :: " + password);
+		logger.info("id :: " + tempUser.getId() + " password :: " + tempUser.getPassword());
 
 		try {
-			User user = userService.findUserByIdPwd(id, password);
+			User user = userService.findUserByIdPwd(tempUser.getId(), tempUser.getPassword());
 
 			logger.info("user :: " + user);
 
@@ -121,7 +127,7 @@ public class HomeController {
 			e.printStackTrace();
 		}
 
-		return null;
+		return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	/**
@@ -131,9 +137,14 @@ public class HomeController {
 	 * @param user object to be created
 	 * @param result BindingResult
 	 * @return ResponseEntity<List<String>>
+	 * 
+	 * 아이디 중복 409 Conflict
+	 * 사용자 입력사항 검증 에러 400 Bad Request
+	 * 단일 사용자 생성 완료 200 OK
+	 * 서버 이상 500 Internal Server Error
 	 * */
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public ResponseEntity<List<String>> createUser(@Valid User mkUser, BindingResult result) {
+	public ResponseEntity<List<String>> createUser(@Valid @RequestBody User mkUser, BindingResult result) {
 	
 		logger.info("createUser");
 		logger.info("id :: " + mkUser.getId() + " password :: " + mkUser.getPassword());
@@ -155,7 +166,7 @@ public class HomeController {
 				errorMsgs.add(error.getDefaultMessage());
 				logger.info("createUser :: " + error.getDefaultMessage());
 			}
-			return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<String>>(errorMsgs, HttpStatus.BAD_REQUEST);
 		}
 		
 		else {		
@@ -169,6 +180,7 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return new ResponseEntity<List<String>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -178,6 +190,10 @@ public class HomeController {
 	 * 
 	 * @param request HttpServletRequest
 	 * @return ResponseEntity<List<Comment>>
+	 * 
+	 * 게시물 미확인 204 No Content
+	 * 게시물 확인 200 OK
+	 * 서버 이상 500 Internal Server Error
 	 * */
 	@RequestMapping(value = "/comment", method = RequestMethod.GET)
 	public ResponseEntity<List<Comment>> listAllComments(HttpServletRequest request) {
@@ -210,9 +226,13 @@ public class HomeController {
 	 * @param commentIndex index of comment
 	 * @param request HttpServletRequest
 	 * @return ResponseEntity<Product>
+	 * 
+	 * 상품 미확인 404 Not Found
+	 * 상품 확인 200 OK
+	 * 서버 이상 500 Internal Server Error
 	 * */
 	@RequestMapping(value = "/product", method = RequestMethod.GET)
-	public ResponseEntity<Product> getProduct(@RequestParam(value = "commentIndex") String commentIndex,
+	public ResponseEntity<Product> getProduct(String commentIndex,
 			HttpServletRequest request) {
 		
 		logger.info("getProduct");
@@ -241,12 +261,11 @@ public class HomeController {
 	 * OrderHistory
 	 * 구매 이력 생성
 	 * 
-	 * @param id String
-	 * @param corp_num String
-	 * @param product_code String
-	 * @param count String
-	 * @param settlement_method String
+	 * @param orderHistory object to be created
 	 * @return ResponseEntity<Void>
+	 * 
+	 * 단일 구매 이력 생성 200 OK
+	 * 서버 이상 500 Internal Server Error
 	 * */
 	@RequestMapping(value = "/orderHistory", method = RequestMethod.POST)
 	public ResponseEntity<Void> createOrderHistory(@RequestBody OrderHistory orderHistory) {

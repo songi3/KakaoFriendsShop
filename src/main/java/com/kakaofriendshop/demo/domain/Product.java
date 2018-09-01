@@ -7,7 +7,6 @@ import java.util.Date;
  *
  */
 
-
 public class Product {
 
 	String corp_num;
@@ -70,6 +69,11 @@ public class Product {
 	public void setC_origin(String c_origin) {
 		this.c_origin = c_origin;
 	}
+	
+	/**
+	 * Price getter, setter
+	 * 제조사
+	 */
 	public int getPrice() {
 		return price;
 	}
@@ -78,7 +82,7 @@ public class Product {
 	}
 
 	/**
-	 * Price getter, setter
+	 * Reg_date getter, setter
 	 */
 	public Date getReg_date() {
 		return reg_date;
@@ -86,6 +90,10 @@ public class Product {
 	public void setReg_date(Date reg_date) {
 		this.reg_date = reg_date;
 	}
+	
+	/**
+	 * Up_date getter, setter
+	 */
 	public Date getUp_date() {
 		return up_date;
 	}

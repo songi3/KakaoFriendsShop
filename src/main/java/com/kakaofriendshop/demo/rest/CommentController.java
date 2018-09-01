@@ -64,12 +64,12 @@ public class CommentController {
 	 * Comment
 	 * 단일 게시물 검색
 	 * 
-	 * @param user object to be checked
+	 * @param comment index to be selected
 	 * @param request HttpServletRequest
-	 * @return ResponseEntity<User>
+	 * @return ResponseEntity<Comment>
 	 * 
-	 * 사용자 정보 미확인 404 Not Found
-	 * 사용자 정보 확인 200 OK
+	 * 게시물 정보 미확인 404 Not Found
+	 * 게시물 정보 확인 200 OK
 	 * 서버 이상 500 Internal Server Error
 	 * */
 	@RequestMapping(value = "/comment/{index}", method = RequestMethod.GET)

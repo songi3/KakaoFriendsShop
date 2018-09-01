@@ -12,7 +12,7 @@ import com.kakaofriendshop.demo.domain.User;
 
 @Repository
 public interface UserMapper {
-	/* DB Select  */
+
     public User findUserById(String userId) throws Exception;
     public User findUserByIdPwd(@Param("userId")String userId, @Param("userPassword")String userPassword) throws Exception;
     public void createUser(User mkUser) throws Exception;

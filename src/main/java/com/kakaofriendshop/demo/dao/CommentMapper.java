@@ -12,7 +12,7 @@ import com.kakaofriendshop.demo.domain.Comment;
 
 @Repository
 public interface CommentMapper {
-	/* DB Select  */
+
     public String getDual() throws Exception;
     public List<Comment> findAllComments() throws Exception;
     public int getProductPrice(String commentIndex) throws Exception;

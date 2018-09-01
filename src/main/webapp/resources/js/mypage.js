@@ -114,6 +114,16 @@ function orderhistoryListClickEvent() {
 					}
 				});
 			}
+		},
+		beforeSend : function() { // 로딩 이미지 처리
+			$(".loading-image").addClass("on"); // 로딩 이미지 show
+			$(".mask").addClass("on"); //마스크 show
+			$(".mask").fadeTo("slow", 0.4); // 배경 흐리게 효과
+		},
+		complete : function() { // 로딩 이미지 사라짐
+			$(".loading-image").removeClass("on"); // 로딩 이미지 hide
+			$(".mask").fadeTo("slow", 0);
+			$(".mask").removeClass("on"); // 마스크 hide
 		}
 	});
 }

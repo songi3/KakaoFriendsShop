@@ -1,5 +1,5 @@
 
-var contextPath = "/KakaoFriendsShop";
+var contextPath = fn_GetContextRoot();
 
 $(document).ready(function() {
 	setCommentInfo();
@@ -71,6 +71,16 @@ function paramsFunc(paramsList, paramsNm) {
 		alertify.alert("경고", "파라미터가 존재하지 않습니다.");
 	}
 }
+
+/**
+ * 게시물
+ * 컨텍스트패스 설정
+ */
+function fn_GetContextRoot() {
+	var offset=location.href.indexOf(location.host)+location.host.length;
+	var UniPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	return UniPath;
+};
 
 /*******************************************************************************
  * 클릭 이벤트 각종 버튼, 리소스 클릭 시

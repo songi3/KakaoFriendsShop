@@ -1,5 +1,15 @@
 
-var contextPath = "/KakaoFriendsShop";
+var contextPath = fn_GetContextRoot();
+
+/**
+ * 마이페이지
+ * 컨텍스트패스 설정
+ */
+function fn_GetContextRoot() {
+	var offset=location.href.indexOf(location.host)+location.host.length;
+	var UniPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	return UniPath;
+};
 
 /**
  * 마이페이지

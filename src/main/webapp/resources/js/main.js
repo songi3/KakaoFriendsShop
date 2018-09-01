@@ -1,12 +1,11 @@
 
-var contextPath = "/KakaoFriendsShop";
+var contextPath = fn_GetContextRoot();
 
 $(document).ready(function() {
 	checkSession();
 	setProductList();
 	setTextAnimation();
 	$('.bx-wrapper').bxSlider();
-
 });
 
 /**
@@ -58,7 +57,7 @@ function animateMoveDiv(divName, duration) {
  * URL 호출
  */
 function callURL(url) {
-	$(location).attr('href', "/KakaoFriendsShop" + url);
+	$(location).attr('href', contextPath + url);
 }
 
 /**
@@ -100,10 +99,20 @@ function setLogin() {
 
 /**
  * 메인
+ * 컨텍스트패스 설정
+ */
+function fn_GetContextRoot() {
+	var offset=location.href.indexOf(location.host)+location.host.length;
+	var UniPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+	return UniPath;
+};
+
+/**
+ * 메인
  * 홈 화면 로딩 시 게시물 목록 표시
  */
 function setProductList() {
-
+	
 	$.ajax({
 
 		url : contextPath + "/comment",
@@ -171,7 +180,7 @@ function loginButtonClickEvent() {
  * 상단 네비 홈 버튼 클릭 시 index.html 이동
  */
 function homeButtonClickEvent() {
-	callURL('/');
+	callURL('');
 }
 
 /**

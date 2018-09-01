@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kakaofriendshop.demo.dao.OrderHistoryMapper">
 
-	<insert id="saveOrderHistory" useGeneratedKeys="true">
+	<insert id="saveOrderHistory" useGeneratedKeys="true" parameterType="com.kakaofriendshop.demo.domain.OrderHistory">
 		insert into
-		order_history(id, corp_num, product_code, count, settlement_method)
+		order_history(id, corp_num, product_code, count, settlement_method, price)
 		values (#{id}, #{corp_num}, #{product_code}, #{count},
-		#{settlement_method})
+		#{settlement_method}, #{price})
 	</insert>
 
 	<select id="findOrderHistoriesById" resultType="com.kakaofriendshop.demo.domain.OrderHistory">

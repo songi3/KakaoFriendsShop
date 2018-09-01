@@ -20,8 +20,8 @@ public class OrderHistoryServiceImpl implements OrderHistoryService{
 	OrderHistoryMapper orderHistoryMapper;
 	
 	@Override
-	public void saveOrderHistory(String id, String corp_num, String product_code, String count, String settlement_method) throws Exception{
-		orderHistoryMapper.saveOrderHistory(id, corp_num, product_code, count, settlement_method);
+	public void saveOrderHistory(OrderHistory orderHistory) throws Exception{
+		orderHistoryMapper.saveOrderHistory(orderHistory);
 	}
 	
 	@Override

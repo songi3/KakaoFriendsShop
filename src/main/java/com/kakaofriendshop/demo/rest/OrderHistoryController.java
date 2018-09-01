@@ -38,7 +38,7 @@ public class OrderHistoryController {
 		logger.info("info :: " + orderHistory.getId() + "/ " + orderHistory.getCorp_num());
 		
 		try {
-			orderHistoryService.saveOrderHistory(orderHistory.getId(), orderHistory.getCorp_num(), orderHistory.getProduct_code(), orderHistory.getCount(), orderHistory.getSettlement_method());
+			orderHistoryService.saveOrderHistory(orderHistory);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 			
 		} catch (Exception e) {

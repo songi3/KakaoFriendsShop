@@ -11,7 +11,7 @@ import com.kakaofriendshop.demo.domain.OrderHistory;
 public interface OrderHistoryMapper {
 	
 	/* DB Select */
-	public void saveOrderHistory(@Param("id")String id, @Param("corp_num")String corp_num, @Param("product_code")String product_code, @Param("count")String count, @Param("settlement_method")String settlement_method)
+	public void saveOrderHistory(OrderHistory orderHistory)
 			throws Exception;
     public List<OrderHistory> findOrderHistoriesById(@Param("userId")String userId) throws Exception;
 }

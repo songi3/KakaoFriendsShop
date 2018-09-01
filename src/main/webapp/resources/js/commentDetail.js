@@ -13,6 +13,10 @@ var commentIndex; //게시물 번호
  * 함수
  ******************************************************************************/
 
+/**
+ * 게시물
+ * 게시물 정보 설정
+ */
 function setCommentInfo(){
 	
 	var paramsList = location.search.substring(1).split("&"); //파라미터가 담긴 배열
@@ -46,20 +50,17 @@ function setCommentInfo(){
 	
 }
 
-//파라미터명으로 파라미터값 추출
-
+/**
+ * 게시물
+ * 파라미터명 이용 파라미터 값 추출
+ */
 function paramsFunc(paramsList, paramsNm) {
 
 	var nullChk = "";
-
 	for(var i=0; i<paramsList.length; i++) {
-
 		if(paramsNm == paramsList[i].split("=")[0]) {
-
 			return paramsList[i].split("=")[1]; 
-
 		}else {
-
 			if(i == paramsList.length-1) nullChk = true;
 		}
 	}
@@ -74,7 +75,7 @@ function paramsFunc(paramsList, paramsNm) {
  ******************************************************************************/
 
 /**
- * 상품
+ * 게시물
  * 상품 구매 버튼 클릭 시 
  * */
 function buyButtonClickEvent() {

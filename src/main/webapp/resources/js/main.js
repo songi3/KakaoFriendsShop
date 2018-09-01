@@ -159,7 +159,7 @@ function logoutButtonClickEvent() {
 
 	$.ajax({
 		url : "/user/logout",
-		type : "get",
+		type : "delete",
 		success : function() {
 			alert("로그아웃 되었습니다.");
 			callURL('/');

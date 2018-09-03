@@ -5,6 +5,14 @@ $(document).ready(function() {
 	setCommentInfo();
 });
 
+/**
+ * 게시물
+ * 창 크키 변화 감지
+ */
+$(window).resize(function() {
+    setImgSize();
+});
+
 /*******************************************************************************
  * 변수
  ******************************************************************************/
@@ -47,6 +55,8 @@ function setCommentInfo(){
 			
 			var priceDiv = $(".price");
 			priceDiv.text(comment.price + "원");
+
+            setImgSize();
 		}
 	});
 	
@@ -82,6 +92,24 @@ function fn_GetContextRoot() {
 	return UniPath;
 };
 
+/**
+ * 게시물
+ * 이미지 크기 조정
+ */
+function setImgSize() {
+    var windowWidth = $(window).width();
+    if (windowWidth < 992) { // 사이즈 992 보다 크면 100%
+        var projectImgs = $('.main').find('img');
+        projectImgs.each(function() {
+            $(this).width('100%');
+        });
+
+    } else {
+        var projectImgs = $('.main').find('img');
+        projectImgs.each(function() {
+        });
+    }
+}
 /*******************************************************************************
  * 클릭 이벤트 각종 버튼, 리소스 클릭 시
  ******************************************************************************/
